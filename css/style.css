@@ -7,6 +7,9 @@
 }
 
 
+.borda{
+  border: 2px solid green;
+}
 
 
 /* Barra de navegação superior */
@@ -78,9 +81,13 @@ header {
   }
 
   .header-content {
-    max-width: 800px;
+    max-width: 1400px;
     padding: 20px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
   }
+
 
   .slogan {
     color: #ffffff;
@@ -89,83 +96,34 @@ header {
     text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   }
 
+
   .search-bar input[type="text"] {
+
     width: 80%;
     font-size: 1.1rem;
     border-radius: 25px;
     border: none;
-    margin-top: 20px;
     padding: 14px 20px;
   }
 
   .search-bar button {
+    height: 60px;
+    width: 60px;
     padding: 12px;
     margin-left: 10px;
-    border-radius: 25px;
+    border-radius: 30px;
     background: #3498DB;
     border: none;
     color: white;
     cursor: pointer;
   }
 
-  .dropdown-group {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
 
-  .dropdown-group select {
-    font-size: 0.9rem;
-    padding: 8px 14px;
-    border-radius: 20px;
-    border: none;
-    background-color: #34495E;
-    color: white;
-    cursor: pointer;
-    appearance: none;
-  }
 
-  .dropdown-group select:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #3498DB;
-  }
 
-  #outra-cidade-input {
-    display: none;
-    margin-top: 10px;
-  }
 
-  #outra-cidade-input input {
-    border-radius: 20px;
-    border: none;
-    padding: 10px 15px;
-    width: 100%;
-    max-width: 300px;
-  }
 
-  .active-filters {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .active-filters .filter-tag {
-    background: #ecf0f1;
-    color: #2c3e50;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    padding: 6px 12px;
-    display: flex;
-    align-items: center;
-  }
-
-  .filter-tag span {
-    margin-left: 8px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+  
 
   .cta {
     margin-top: 30px;
@@ -187,4 +145,39 @@ header {
     object-fit: contain;
   }
 
+ #filtros  .btn{
+  background-color: #00000070;
+ }
+
+
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top:25px;
+  }
   
+ 
+  
+ 
+  /* main */
+  .restaurant-card img {
+    height: 200px;
+    object-fit: cover;
+  }
+  .rating {
+    color: #00aa6c;
+  }
+  .card-title {
+    font-weight: 500;
+  }
+
+  /* Footer */
+  footer {
+    background-color: #2C3E50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 30px;
+  }
