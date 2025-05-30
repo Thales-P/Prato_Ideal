@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .profile-header {
+            background-color: #007bff; /* Azul primário do Bootstrap */
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+        }
+        .profile-card {
+            margin-top: -35px; /* Ajustado para reduzir sobreposição e evitar corte do nome */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .info-value {
+            color: #333;
+        }
+        .edit-mode-controls {
+            display: none; /* Oculto por padrão */
+        }
+        .list-group-item-action:hover {
+            background-color: #f1f1f1;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">NomeDoSeuSite</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="paginaRestauranteDetalhada.html">Restaurantes</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Meu Perfil <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sair</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="profile-header">
+        <div class="container">
+            <img id="user-foto" src="https://via.placeholder.com/150" alt="Foto do Usuário" class="profile-avatar">
+            <h2 id="user-nome-header" class="mt-2 mb-3">Nome do Usuário</h2>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="section-title mb-0">Minhas Informações</h3>
+                        <div id="view-mode-controls">
+                            <button id="btn-edit-profile" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"></i> Editar Perfil</button>
+                        </div>
+                        <div class="edit-mode-controls" id="edit-mode-controls-div">
+                            <button id="btn-save-profile" class="btn btn-success btn-sm mr-2"><i class="fas fa-save"></i> Salvar Alterações</button>
+                            <button id="btn-cancel-edit" class="btn btn-secondary btn-sm"><i class="fas fa-times"></i> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="info-label">Nome Completo:</label>
+                        <span id="user-nome-completo-view" class="info-value"></span>
+                        <input type="text" class="form-control" id="user-nome-completo-edit" style="display:none;">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label">Email:</label>
+                        <span id="user-email-view" class="info-value"></span>
+                        <input type="email" class="form-control" id="user-email-edit" style="display:none;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p><span class="info-label">Membro Desde:</span> <span id="user-data-cadastro" class="info-value"></span></p>
+                    <p><span class="info-label">ID de Usuário:</span> <span id="user-id" class="info-value"></span></p>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3 class="section-title">Meus Restaurantes Favoritos</h3>
+                    <div id="lista-favoritos" class="list-group">
+                        <p class="text-muted" id="sem-favoritos-msg" style="display:none;">Você ainda não adicionou nenhum restaurante aos favoritos.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3 class="section-title">Minhas Avaliações Recentes</h3>
+                    <div id="lista-minhas-avaliacoes" class="list-group">
+                         <p class="text-muted" id="sem-avaliacoes-msg">Você ainda não fez nenhuma avaliação.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <p>&copy; 2025 NomeDoSeuSite - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const dadosUsuario = {
+            "_id": "user1",
+            "nome": "Srta. Lívia Nunes",
+            "email": "laisda-mota@da.com",
+            "senha": "@C2LYtoTu%", 
+            "foto": "https://randomuser.me/api/portraits/women/1.jpg",
+            "data_cadastro": "2025-05-13",
+            "favoritos": [
+                { "id_restaurante": "rest2", "nome_restaurante": "Restaurante Bom Sabor", "foto_restaurante": "https://via.placeholder.com/80x80.png?text=Rest2" },
+                { "id_restaurante": "rest21", "nome_restaurante": "Cantina da Nonna", "foto_restaurante": "https://via.placeholder.com/80x80.png?text=Rest21" },
+                { "id_restaurante": "rest16", "nome_restaurante": "Mar Aberto Frutos do Mar", "foto_restaurante": "https://via.placeholder.com/80x80.png?text=Rest16" },
+                { "id_restaurante": "rest8", "nome_restaurante": "Steak House Premium", "foto_restaurante": "https://via.placeholder.com/80x80.png?text=Rest8" }
+            ]
+        };
+
+        const minhasAvaliacoes = [
+            { "_id": "rev1", "id_restaurante": "rest1", "nome_restaurante": "Melo Restaurante", "nota": 4, "comentario": "Ótimo! Adorei a lasanha.", "data": "2025-05-20" },
+            { "_id": "revX", "id_restaurante": "rest5", "nome_restaurante": "Sushi Master", "nota": 5, "comentario": "Peixe fresco e atendimento impecável!", "data": "2025-04-10" }
+        ];
+
+        // Elementos do DOM para informações do usuário
+        const userFotoEl = document.getElementById('user-foto');
+        const userNomeHeaderEl = document.getElementById('user-nome-header');
+        
+        const userNomeCompletoViewEl = document.getElementById('user-nome-completo-view');
+        const userNomeCompletoEditEl = document.getElementById('user-nome-completo-edit');
+        const userEmailViewEl = document.getElementById('user-email-view');
+        const userEmailEditEl = document.getElementById('user-email-edit');
+        
+        const userDataCadastroEl = document.getElementById('user-data-cadastro');
+        const userIdEl = document.getElementById('user-id');
+
+        // Botões de controle
+        const btnEditProfile = document.getElementById('btn-edit-profile');
+        const btnSaveProfile = document.getElementById('btn-save-profile');
+        const btnCancelEdit = document.getElementById('btn-cancel-edit');
+        const viewModeControlsEl = document.getElementById('view-mode-controls');
+        const editModeControlsEl = document.getElementById('edit-mode-controls-div');
+
+
+        function popularDadosUsuarioView() {
+            userFotoEl.src = dadosUsuario.foto;
+            userFotoEl.alt = `Foto de ${dadosUsuario.nome}`;
+            userNomeHeaderEl.textContent = dadosUsuario.nome;
+            
+            userNomeCompletoViewEl.textContent = dadosUsuario.nome;
+            userEmailViewEl.textContent = dadosUsuario.email;
+            
+            userIdEl.textContent = dadosUsuario._id;
+            const dataCadastro = new Date(dadosUsuario.data_cadastro);
+            userDataCadastroEl.textContent = dataCadastro.toLocaleDateString('pt-BR', {
+                day: '2-digit', month: 'long', year: 'numeric'
+            });
+        }
+
+        function toggleEditMode(isEditing) {
+            if (isEditing) {
+                // Preencher inputs com valores atuais
+                userNomeCompletoEditEl.value = dadosUsuario.nome;
+                userEmailEditEl.value = dadosUsuario.email;
+
+                // Mostrar inputs, esconder spans
+                userNomeCompletoViewEl.style.display = 'none';
+                userNomeCompletoEditEl.style.display = 'block';
+                userEmailViewEl.style.display = 'none';
+                userEmailEditEl.style.display = 'block';
+
+                // Alternar botões de controle
+                viewModeControlsEl.style.display = 'none';
+                editModeControlsEl.style.display = 'flex';
+            } else {
+                // Mostrar spans, esconder inputs
+                userNomeCompletoViewEl.style.display = 'inline';
+                userNomeCompletoEditEl.style.display = 'none';
+                userEmailViewEl.style.display = 'inline';
+                userEmailEditEl.style.display = 'none';
+
+                // Alternar botões de controle
+                viewModeControlsEl.style.display = 'block';
+                editModeControlsEl.style.display = 'none';
+            }
+        }
+
+        btnEditProfile.addEventListener('click', function() {
+            toggleEditMode(true);
+        });
+
+        btnCancelEdit.addEventListener('click', function() {
+            toggleEditMode(false);
+            // Repopular com os dados originais caso o usuário tenha digitado algo
+            popularDadosUsuarioView(); 
+        });
+
+        btnSaveProfile.addEventListener('click', function() {
+            // Salvar os dados (simulado)
+            dadosUsuario.nome = userNomeCompletoEditEl.value.trim();
+            dadosUsuario.email = userEmailEditEl.value.trim();
+
+            // Validar se os campos não estão vazios (exemplo simples)
+            if (!dadosUsuario.nome || !dadosUsuario.email) {
+                alert("Nome e Email não podem estar vazios.");
+                // Poderia manter no modo de edição ou reverter, dependendo da UX desejada
+                // Por ora, vamos manter no modo de edição para correção
+                userNomeCompletoEditEl.value = dadosUsuario.nome; // Restaura o valor editado se um estava vazio
+                userEmailEditEl.value = dadosUsuario.email;
+                return; 
+            }
+            
+            // Atualizar a visualização e sair do modo de edição
+            popularDadosUsuarioView();
+            toggleEditMode(false);
+            alert("Informações salvas com sucesso!"); // Feedback para o usuário
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            popularDadosUsuarioView(); // Popular dados iniciais
+
+            // Popular lista de favoritos
+            const listaFavoritosContainer = document.getElementById('lista-favoritos');
+            const semFavoritosMsg = document.getElementById('sem-favoritos-msg');
+
+            if (dadosUsuario.favoritos && dadosUsuario.favoritos.length > 0) {
+                semFavoritosMsg.style.display = 'none';
+                dadosUsuario.favoritos.forEach(fav => {
+                    const favItemHTML = `
+                        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                            <img src="${fav.foto_restaurante || 'https://via.placeholder.com/80x80.png?text=Restaurante'}" alt="${fav.nome_restaurante}" class="rounded mr-3" style="width: 60px; height: 60px; object-fit: cover;">
+                            <div>
+                                <h6 class="mb-1">${fav.nome_restaurante}</h6>
+                                <small class="text-muted">ID: ${fav.id_restaurante}</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger ml-auto" title="Remover dos Favoritos"><i class="fas fa-trash-alt"></i></button>
+                        </a>`;
+                    listaFavoritosContainer.innerHTML += favItemHTML;
+                });
+            } else {
+                semFavoritosMsg.style.display = 'block';
+            }
+
+            // Popular lista de "Minhas Avaliações" (simulado)
+            const listaMinhasAvaliacoesContainer = document.getElementById('lista-minhas-avaliacoes');
+            const semAvaliacoesMsg = document.getElementById('sem-avaliacoes-msg');
+
+            if (minhasAvaliacoes && minhasAvaliacoes.length > 0) {
+                semAvaliacoesMsg.style.display = 'none';
+                 minhasAvaliacoes.forEach(review => {
+                    let estrelasHTML = '';
+                    for (let i = 0; i < 5; i++) {
+                        estrelasHTML += i < review.nota ? '<i class="fas fa-star text-warning"></i>' : '<i class="far fa-star text-warning"></i>';
+                    }
+                    const reviewDate = new Date(review.data).toLocaleDateString('pt-BR');
+                    const reviewItemHTML = `
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1"><a href="#">${review.nome_restaurante}</a></h5>
+                                <small>${reviewDate}</small>
+                            </div>
+                            <div class="mb-1">${estrelasHTML} <span class="ml-1">(${review.nota.toFixed(1)})</span></div>
+                            <p class="mb-1">${review.comentario}</p>
+                            <small class="text-muted">ID da Avaliação: ${review._id}</small>
+                        </div>`;
+                    listaMinhasAvaliacoesContainer.innerHTML += reviewItemHTML;
+                });
+            } else {
+                 semAvaliacoesMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

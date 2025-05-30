@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliar Restaurante</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .rating-stars {
+            font-size: 2rem; /* Tamanho maior para seleção de estrelas */
+            color: #ccc; /* Cor padrão para estrelas vazias */
+            cursor: pointer;
+        }
+        .rating-stars .fas.fa-star { /* Estrela preenchida (selecionada) */
+            color: #ffc107;
+        }
+        .form-control-file {
+            border: 1px solid #ced4da;
+            padding: .375rem .75rem;
+            border-radius: .25rem;
+        }
+        .preview-images img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .suggestion-box {
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .suggestion-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.2s;
+        }
+        .suggestion-item:hover {
+            background-color: #e9ecef;
+        }
+        .loading-spinner {
+            display: none; /* Oculto por padrão */
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="nav-top" class="navbar navbar-expand-md">
+        <div class="container-fluid container-md d-flex justify-content-between align-items-center">
+    
+          <!-- Logo -->
+          <div id="logo-nav" class="d-flex align-items-center">
+            <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
+            <a class="navbar-brand fs-1 fw-bolder ms-2 d-none d-md-inline" href="index.html">Prato Ideal</a>
+          </div>
+    
+          <!-- Barra de pesquisa -->
+          <div id="barra-pesquisa-container" class="flex-grow-1 mx-3">
+            <form class="input-group" role="search">
+              <input id="barra-pesquisa" type="text" class="form-control" placeholder="O que você procura?">
+              <button class="btn" type="submit">
+                <img src="../imagens/lupa.svg" alt="Pesquisar" width="16" height="16">
+              </button>
+            </form>
+          </div>
+    
+          <!-- Perfil -->
+          <div id="perfil-nav" class="d-flex align-items-center">
+            <a class="navbar-brand fs-3 m-0 d-none d-md-inline" href="#">ENTRAR</a>
+            <img id="img-perfil-nav" src="../imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
+          </div>
+    
+        </div>
+      </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 id="form-title">Avaliar Restaurante: <span id="restaurant-name-to-review">Nome do Restaurante</span></h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="reviewForm">
+                            <div class="form-group">
+                                <label for="nota">Sua Nota:</label>
+                                <div id="starRating" class="rating-stars">
+                                    <i class="far fa-star" data-value="1"></i>
+                                    <i class="far fa-star" data-value="2"></i>
+                                    <i class="far fa-star" data-value="3"></i>
+                                    <i class="far fa-star" data-value="4"></i>
+                                    <i class="far fa-star" data-value="5"></i>
+                                </div>
+                                <input type="hidden" name="nota" id="notaInput" required>
+                                <div class="invalid-feedback">Por favor, dê uma nota.</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="comentario">Seu Comentário:</label>
+                                <textarea class="form-control" id="comentario" name="comentario" rows="5" placeholder="Conte-nos sobre sua experiência..." required></textarea>
+                                <div class="invalid-feedback">Por favor, escreva um comentário.</div>
+                            </div>
+
+                            <div class="form-group text-right" id="geminiSuggestionArea" style="display: none;">
+                                <button type="button" id="btnGenerateSuggestion" class="btn btn-outline-info btn-sm">
+                                    ✨ Gerar Sugestão de Comentário
+                                    <span class="spinner-border spinner-border-sm loading-spinner" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div id="commentSuggestions" class="suggestion-box" style="display: none;">
+                                <p class="font-weight-bold">Sugestões da IA:</p>
+                                <div id="suggestionsList"></div>
+                                <small class="text-muted">Clique em uma sugestão para usá-la.</small>
+                            </div>
+
+
+                            <div class="form-group mt-3">
+                                <label for="fotos">Adicionar Fotos (opcional):</label>
+                                <input type="file" class="form-control-file" id="fotos" name="fotos[]" multiple accept="image/*">
+                                <div id="imagePreview" class="mt-3 preview-images">
+                                    </div>
+                            </div>
+                            
+                            <hr>
+                            <p id="form-message" class="text-center"></p>
+                            <button type="submit" class="btn btn-success btn-block btn-lg"><i class="fas fa-paper-plane"></i> Enviar Avaliação</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="text-center">
+        <div class="container">
+          <p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p>
+        </div>
+      </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const restaurantNameToReview = "Melo Restaurante"; 
+            document.getElementById('restaurant-name-to-review').textContent = restaurantNameToReview;
+
+            const stars = document.querySelectorAll('#starRating .fa-star');
+            const notaInput = document.getElementById('notaInput');
+            const comentarioInput = document.getElementById('comentario');
+            const geminiSuggestionArea = document.getElementById('geminiSuggestionArea');
+            const btnGenerateSuggestion = document.getElementById('btnGenerateSuggestion');
+            const commentSuggestionsDiv = document.getElementById('commentSuggestions');
+            const suggestionsListDiv = document.getElementById('suggestionsList');
+            const loadingSpinner = btnGenerateSuggestion.querySelector('.loading-spinner');
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function () {
+                    resetStarsVisual();
+                    const rating = parseInt(this.dataset.value);
+                    highlightStarsVisual(rating);
+                });
+
+                star.addEventListener('mouseout', function () {
+                    resetStarsVisual();
+                    const currentRating = parseInt(notaInput.value);
+                    if (currentRating) {
+                        highlightStarsVisual(currentRating);
+                    }
+                });
+
+                star.addEventListener('click', function () {
+                    const rating = parseInt(this.dataset.value);
+                    notaInput.value = rating;
+                    highlightStarsVisual(rating); 
+                    geminiSuggestionArea.style.display = 'block'; // Mostra o botão de sugestão
+                    commentSuggestionsDiv.style.display = 'none'; // Esconde sugestões antigas
+                    suggestionsListDiv.innerHTML = '';
+                });
+            });
+
+            function resetStarsVisual() {
+                stars.forEach(s => {
+                    s.classList.remove('fas');
+                    s.classList.add('far');
+                });
+            }
+
+            function highlightStarsVisual(rating) {
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.remove('far');
+                    stars[i].classList.add('fas');
+                }
+            }
+
+            // Lógica da API Gemini
+            btnGenerateSuggestion.addEventListener('click', async function() {
+                const currentRating = parseInt(notaInput.value);
+                if (!currentRating) {
+                    alert("Por favor, selecione uma nota antes de gerar sugestões.");
+                    return;
+                }
+
+                loadingSpinner.style.display = 'inline-block';
+                btnGenerateSuggestion.disabled = true;
+                commentSuggestionsDiv.style.display = 'none';
+                suggestionsListDiv.innerHTML = '';
+
+                let promptText = `Gere 3 sugestões curtas de comentários para uma avaliação de restaurante com ${currentRating} estrela(s).`;
+                if (currentRating === 1) promptText += " O comentário deve refletir uma experiência ruim.";
+                if (currentRating === 2) promptText += " O comentário deve refletir uma experiência um pouco abaixo do esperado.";
+                if (currentRating === 3) promptText += " O comentário deve refletir uma experiência razoável/mediana.";
+                if (currentRating === 4) promptText += " O comentário deve refletir uma boa experiência.";
+                if (currentRating === 5) promptText += " O comentário deve refletir uma excelente experiência.";
+                promptText += " Cada sugestão deve ser concisa e útil para o usuário. Retorne apenas as sugestões, uma por linha."
+
+                try {
+                    let chatHistory = [{ role: "user", parts: [{ text: promptText }] }];
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // Deixe vazio, o Canvas injetará a chave
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Erro na API: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        
+                        const text = result.candidates[0].content.parts[0].text;
+                        const suggestions = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+                        
+                        if (suggestions.length > 0) {
+                            suggestions.forEach(suggestionText => {
+                                const suggestionDiv = document.createElement('div');
+                                suggestionDiv.className = 'suggestion-item';
+                                suggestionDiv.textContent = suggestionText;
+                                suggestionDiv.onclick = () => {
+                                    comentarioInput.value = suggestionText;
+                                    commentSuggestionsDiv.style.display = 'none'; // Esconde após selecionar
+                                };
+                                suggestionsListDiv.appendChild(suggestionDiv);
+                            });
+                            commentSuggestionsDiv.style.display = 'block';
+                        } else {
+                            suggestionsListDiv.innerHTML = '<p class="text-muted">Não foi possível gerar sugestões no momento.</p>';
+                             commentSuggestionsDiv.style.display = 'block';
+                        }
+                    } else {
+                        throw new Error("Resposta da API em formato inesperado ou sem conteúdo.");
+                    }
+
+                } catch (error) {
+                    console.error("Erro ao gerar sugestão:", error);
+                    suggestionsListDiv.innerHTML = `<p class="text-danger">Erro ao buscar sugestões: ${error.message}. Tente novamente.</p>`;
+                    commentSuggestionsDiv.style.display = 'block';
+                } finally {
+                    loadingSpinner.style.display = 'none';
+                    btnGenerateSuggestion.disabled = false;
+                }
+            });
+
+
+            // Preview de Imagens
+            const fotosInput = document.getElementById('fotos');
+            const imagePreviewContainer = document.getElementById('imagePreview');
+
+            fotosInput.addEventListener('change', function(event) {
+                imagePreviewContainer.innerHTML = ''; 
+                const files = event.target.files;
+                if (files) {
+                    Array.from(files).forEach(file => {
+                        if (file.type.startsWith('image/')){
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.alt = file.name;
+                                imagePreviewContainer.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            });
+
+
+            // Validação e Submissão do Formulário (Simulado)
+            const reviewForm = document.getElementById('reviewForm');
+            const formMessage = document.getElementById('form-message');
+
+            reviewForm.addEventListener('submit', function (event) {
+                event.preventDefault(); 
+
+                let isValid = true;
+                formMessage.textContent = '';
+                formMessage.className = 'text-center';
+
+                if (!notaInput.value) {
+                    notaInput.classList.add('is-invalid');
+                    document.querySelector('#starRating + .invalid-feedback').style.display = 'block';
+                    isValid = false;
+                } else {
+                    notaInput.classList.remove('is-invalid');
+                     document.querySelector('#starRating + .invalid-feedback').style.display = 'none';
+                }
+
+                if (comentarioInput.value.trim() === '') {
+                    comentarioInput.classList.add('is-invalid');
+                    comentarioInput.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                } else {
+                    comentarioInput.classList.remove('is-invalid');
+                    comentarioInput.nextElementSibling.style.display = 'none';
+                }
+
+                if (isValid) {
+                    console.log('Formulário válido. Enviando dados:');
+                    console.log('Nota:', notaInput.value);
+                    console.log('Comentário:', comentarioInput.value);
+                    
+                    formMessage.textContent = 'Avaliação enviada com sucesso! Obrigado.';
+                    formMessage.classList.add('text-success');
+                    reviewForm.reset(); 
+                    imagePreviewContainer.innerHTML = ''; 
+                    resetStarsVisual(); 
+                    notaInput.value = ''; 
+                    geminiSuggestionArea.style.display = 'none';
+                    commentSuggestionsDiv.style.display = 'none';
+                } else {
+                    formMessage.textContent = 'Por favor, corrija os erros no formulário.';
+                    formMessage.classList.add('text-danger');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

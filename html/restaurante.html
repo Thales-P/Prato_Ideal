@@ -1,47 +1,361 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prato Ideal</title>
-  <!-- links para importar a fonte  Istok Web -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-    rel="stylesheet">
-  <!-- links para o css -->
-  <link rel="stylesheet" href="../css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Restaurante</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style-restaurant.css">
+    
 </head>
 <body>
-    <nav id="nav-top" class="navbar navbar-expand-md">
-        <div class="container-fluid container-md d-flex justify-content-between align-items-center">
-    
-          <!-- Logo -->
-          <div id="logo-nav" class="d-flex align-items-center">
-            <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
-            <a class="navbar-brand fs-1 fw-bolder ms-2 d-none d-md-inline" href="#">Prato Ideal</a>
-          </div>
-    
-          <!-- Barra de pesquisa -->
-          <div id="barra-pesquisa-container" class="flex-grow-1 mx-3">
-            <form class="input-group" role="search">
-              <input id="barra-pesquisa" type="text" class="form-control" placeholder="O que você procura?">
-              <button class="btn" type="submit">
-                <img src="../imagens/lupa.svg" alt="Pesquisar" width="16" height="16">
-              </button>
-            </form>
-          </div>
-    
-          <!-- Perfil -->
-          <div id="perfil-nav" class="d-flex align-items-center">
-            <a class="navbar-brand fs-3 m-0 d-none d-md-inline" href="#">ENTRAR</a>
-            <img id="img-perfil-nav" src="../imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
-          </div>
-    
+  <nav id="nav-top" class="navbar navbar-expand-md">
+    <div class="container-fluid container-md d-flex justify-content-between align-items-center">
+
+      <!-- Logo -->
+      <div id="logo-nav" class="d-flex align-items-center">
+        <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
+        <a class="navbar-brand fs-1 fw-bolder ms-2 d-none d-md-inline" href="#">Prato Ideal</a>
+      </div>
+
+      <!-- Barra de pesquisa -->
+      <div id="barra-pesquisa-container" class="flex-grow-1 mx-3">
+        <form class="input-group" role="search">
+          <input id="barra-pesquisa" type="text" class="form-control" placeholder="O que você procura?">
+          <button class="btn" type="submit">
+            <img src="../imagens/lupa.svg" alt="Pesquisar" width="16" height="16">
+          </button>
+        </form>
+      </div>
+
+      <!-- Perfil -->
+      <div id="perfil-nav" class="d-flex align-items-center">
+        <a class="navbar-brand fs-3 m-0 d-none d-md-inline" href="#">ENTRAR</a>
+        <img id="img-perfil-nav" src="../imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
+      </div>
+
+    </div>
+  </nav>
+
+    <div class="restaurant-hero">
+        <img id="rest-foto-principal" src="https://via.placeholder.com/1200x400.png?text=Foto+Principal+do+Restaurante" alt="Foto Principal do Restaurante" class="restaurant-hero-image">
+        <div class="restaurant-hero-overlay">
+            <div class="container">
+                <h1 id="rest-nome">Nome do Restaurante</h1>
+                <div class="d-flex align-items-center mb-2">
+                    <span id="rest-avaliacao-media-estrelas" class="rating-stars mr-2"></span>
+                    <span id="rest-avaliacao-media-texto" class="mr-3"></span>
+                    <span id="rest-categoria" class="mr-3"></span>
+                    <span id="rest-faixa-preco"></span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline-light"><i class="fas fa-share-alt"></i> Compartilhar</button>
+                    <button class="btn btn-warning btn-avaliar-destaque"><i class="fas fa-star"></i> Avaliar Restaurante</button>
+                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Salvar</button>
+                </div>
+            </div>
         </div>
-      </nav>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 main-content">
+                <ul class="nav nav-tabs mb-4" id="restaurantTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Visão Geral</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="comodidades-tab" data-toggle="tab" href="#comodidades" role="tab" aria-controls="comodidades" aria-selected="false">Comodidades</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="location" aria-selected="false">Localização</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Avaliações (<span id="total-reviews">0</span>)</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="restaurantTabContent">
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <h3 class="section-title">Sobre o <span id="rest-nome-sobre">Restaurante</span></h3>
+                        <p id="rest-descricao-longa">Aqui viria uma descrição mais detalhada do restaurante, se disponível. Por enquanto, focamos nos dados estruturados.</p>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i> <span id="rest-endereco-completo"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i> <span id="rest-telefone"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-utensils"></i> <span id="rest-categoria-detalhe"></span>
+                        </div>
+                         <div class="info-item">
+                            <i class="fas fa-dollar-sign"></i> <span id="rest-faixa-preco-detalhe"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-info-circle"></i> <span id="rest-status-funcionamento">Verificar horário de funcionamento</span>
+                        </div>
+
+                        <h3 class="section-title mt-4">Galeria de Fotos</h3>
+                        <div id="rest-galeria-fotos" class="row">
+                            <div class="col-md-3 col-6 mb-3">
+                                <img src="https://via.placeholder.com/200x150.png?text=Foto+1" class="img-fluid rounded" alt="Foto da galeria">
+                            </div>
+                             <div class="col-md-3 col-6 mb-3">
+                                <img src="https://via.placeholder.com/200x150.png?text=Foto+2" class="img-fluid rounded" alt="Foto da galeria">
+                            </div>
+                             <div class="col-md-3 col-6 mb-3">
+                                <img src="https://via.placeholder.com/200x150.png?text=Foto+3" class="img-fluid rounded" alt="Foto da galeria">
+                            </div>
+                             <div class="col-md-3 col-6 mb-3">
+                                <img src="https://via.placeholder.com/200x150.png?text=Foto+4" class="img-fluid rounded" alt="Foto da galeria">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="comodidades" role="tabpanel" aria-labelledby="comodidades-tab">
+                        <h3 class="section-title">Comodidades Oferecidas</h3>
+                        <ul id="lista-comodidades" class="list-unstyled comodidades-list row">
+                            </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
+                        <h3 class="section-title">Onde nos Encontrar</h3>
+                        <p id="rest-endereco-mapa"></p>
+                        <div id="map-placeholder" style="width: 100%; height: 300px; background-color: #e9e9e9; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center;">
+                            <p class="text-muted">Simulação de Mapa <br><i class="fas fa-map-marked-alt fa-3x"></i></p>
+                        </div>
+                        <p class="mt-2"><small class="text-muted">Bairro: <span id="rest-bairro">Não informado</span></small></p>
+                    </div>
+
+                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                             <h3 class="section-title mb-0">Avaliações dos Clientes</h3>
+                             <button class="btn btn-primary btn-avaliar-destaque"><i class="fas fa-edit"></i> Escrever Avaliação</button>
+                        </div>
+                       
+                        <div id="lista-avaliacoes">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 sidebar">
+                <div class="sidebar-card">
+                    <h5>Horário de Funcionamento</h5>
+                    <ul id="horario-funcionamento-lista" class="list-unstyled horario-funcionamento">
+                        <li><span class="dia">Domingo</span> <span>12:00 - 17:00</span></li>
+                        <li><span class="dia">Segunda-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
+                        <li><span class="dia">Terça-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
+                        <li><span class="dia">Quarta-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
+                        <li><span class="dia">Quinta-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
+                        <li><span class="dia">Sexta-feira</span> <span>12:00 - 16:00, 19:30 - 01:00</span></li>
+                        <li><span class="dia">Sábado</span> <span>12:00 - 16:00, 19:30 - 01:00</span></li>
+                    </ul>
+                    <small class="text-muted">Horários sujeitos a alteração.</small>
+                </div>
+
+                <div class="sidebar-card">
+                    <h5>Contato Rápido</h5>
+                    <p class="info-item mb-2"><i class="fas fa-phone"></i> <span id="rest-telefone-sidebar"></span></p>
+                    <p class="info-item mb-0"><i class="fas fa-map-marker-alt"></i> <span id="rest-endereco-sidebar"></span></p>
+                </div>
+                 <div class="sidebar-card text-center">
+                    <h5>Gostou deste restaurante?</h5>
+                    <button class="btn btn-success btn-block mt-2"><i class="far fa-thumbs-up"></i> Recomendar</button>
+                    <button class="btn btn-outline-secondary btn-block mt-2"><i class="fas fa-plus"></i> Adicionar aos Favoritos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <div class="text-center">
+      <div class="container">
+        <p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Dados simulados (você os obteria de uma API ou de outra fonte)
+        const dadosRestaurante = {
+            "_id": "rest1",
+            "nome": "Melo Restaurante",
+            "endereco": { "rua": "Rodovia Clara Melo", "numero": 577, "cidade": "Curitiba", "estado": "PR", "bairro": "Centro Cívico" /* Adicionei bairro para exemplo */ },
+            "categoria": "Italiana",
+            "avaliacao_media": 3.2,
+            "foto_principal": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80", // Foto principal melhor
+            "fotos_galeria": [ // Adicionei fotos para galeria
+                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+                "https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+            ],
+            "telefone": "+55 41 4561 5465",
+            "faixa_preco": "$$", // Ex: $, $$, $$$
+            "comodidades": {
+                "wifi": true, "estacionamento": false, "acessibilidade": true, "ar_condicionado": false, 
+                "espaco_kids": true, "pet_friendly": false, "musica_ao_vivo": true, "delivery": true, 
+                "bebidas_alcoolicas": true, "vegano_vegetariano": false, "reserva_online": true, "ambiente_externo": false
+            },
+            "descricao_longa": "O Melo Restaurante oferece uma autêntica experiência da culinária italiana em um ambiente acolhedor e charmoso. Nossos pratos são preparados com ingredientes frescos e selecionados, seguindo receitas tradicionais passadas de geração em geração. Perfeito para um jantar romântico, um almoço de negócios ou uma celebração em família."
+        };
+
+        const todasAvaliacoes = [
+            { "_id": "rev1", "id_restaurante": "rest1", "id_usuario": "user1", "nota": 4, "comentario": "Ótimo! Adorei a lasanha. O ambiente é muito agradável e o atendimento foi rápido. Voltarei com certeza!", "data": "2025-05-20", "fotos": ["https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"] },
+            { "_id": "rev2", "id_restaurante": "rest1", "id_usuario": "user2", "nota": 5, "comentario": "Experiência incrível! A comida estava divina, especialmente o risoto de cogumelos. Recomendo fortemente para quem aprecia boa comida italiana.", "data": "2025-05-19", "fotos": ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=481&q=80", "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=480&q=80"] },
+            { "_id": "rev3", "id_restaurante": "rest1", "id_usuario": "user3", "nota": 3, "comentario": "A comida é boa, mas o serviço demorou um pouco. O preço é justo pela qualidade.", "data": "2025-05-18", "fotos": [] }
+        ];
+
+        const todosUsuarios = {
+            "user1": { "nome": "Srta. Lívia Nunes", "foto": "https://randomuser.me/api/portraits/women/1.jpg" },
+            "user2": { "nome": "Sr. Carlos Maia", "foto": "https://randomuser.me/api/portraits/men/2.jpg" },
+            "user3": { "nome": "Ana Paula Silva", "foto": "https://randomuser.me/api/portraits/women/3.jpg" }
+        };
+
+        // Função para gerar estrelas
+        function gerarEstrelas(nota, maxEstrelas = 5) {
+            let estrelasHTML = '';
+            const notaInt = Math.floor(nota);
+            const temMeiaEstrela = nota - notaInt >= 0.5;
+
+            for (let i = 0; i < notaInt; i++) {
+                estrelasHTML += '<i class="fas fa-star"></i>';
+            }
+            if (temMeiaEstrela) {
+                estrelasHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = Math.ceil(nota); i < maxEstrelas; i++) {
+                estrelasHTML += '<i class="far fa-star"></i>'; // Estrela vazia
+            }
+            return estrelasHTML;
+        }
+        
+        // Função para formatar nomes de comodidades
+        function formatarNomeComodidade(comodidade) {
+            let nomeFormatado = comodidade.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const mapNomes = {
+                "Wifi": "Wi-Fi", "Ar Condicionado": "Ar Condicionado", "Espaco Kids": "Espaço Kids",
+                "Pet Friendly": "Pet Friendly", "Musica Ao Vivo": "Música ao Vivo", 
+                "Vegano Vegetariano": "Opções Veganas/Vegetarianas", "Reserva Online": "Reserva Online",
+                "Ambiente Externo": "Ambiente Externo", "Bebidas Alcoolicas": "Bebidas Alcoólicas"
+            };
+            return mapNomes[nomeFormatado] || nomeFormatado;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Popular informações do restaurante
+            document.getElementById('rest-foto-principal').src = dadosRestaurante.foto_principal;
+            document.getElementById('rest-foto-principal').alt = `Foto de ${dadosRestaurante.nome}`;
+            document.getElementById('rest-nome').textContent = dadosRestaurante.nome;
+            document.getElementById('rest-nome-sobre').textContent = dadosRestaurante.nome;
+            
+            const avaliacaoMedia = dadosRestaurante.avaliacao_media;
+            document.getElementById('rest-avaliacao-media-estrelas').innerHTML = gerarEstrelas(avaliacaoMedia);
+            document.getElementById('rest-avaliacao-media-texto').textContent = `${avaliacaoMedia.toFixed(1)} de 5 estrelas`;
+            
+            document.getElementById('rest-categoria').textContent = dadosRestaurante.categoria;
+            document.getElementById('rest-categoria-detalhe').textContent = `Culinária: ${dadosRestaurante.categoria}`;
+
+            let faixaPrecoTexto = 'Não informado';
+            if (dadosRestaurante.faixa_preco === '$') faixaPrecoTexto = 'Barato';
+            else if (dadosRestaurante.faixa_preco === '$$') faixaPrecoTexto = 'Moderado';
+            else if (dadosRestaurante.faixa_preco === '$$$') faixaPrecoTexto = 'Caro';
+            else if (dadosRestaurante.faixa_preco === '$$$$') faixaPrecoTexto = 'Muito Caro';
+            document.getElementById('rest-faixa-preco').textContent = faixaPrecoTexto;
+            document.getElementById('rest-faixa-preco-detalhe').textContent = `Faixa de Preço: ${faixaPrecoTexto}`;
+            
+            const end = dadosRestaurante.endereco;
+            const enderecoCompleto = `${end.rua}, ${end.numero} - ${end.bairro || 'Bairro não informado'}, ${end.cidade}/${end.estado}`;
+            document.getElementById('rest-endereco-completo').textContent = enderecoCompleto;
+            document.getElementById('rest-endereco-mapa').textContent = enderecoCompleto;
+            document.getElementById('rest-endereco-sidebar').textContent = `${end.rua}, ${end.numero}`;
+            if(end.bairro) document.getElementById('rest-bairro').textContent = end.bairro;
+
+
+            document.getElementById('rest-telefone').textContent = dadosRestaurante.telefone;
+            document.getElementById('rest-telefone-sidebar').textContent = dadosRestaurante.telefone;
+            if(dadosRestaurante.descricao_longa) {
+                document.getElementById('rest-descricao-longa').textContent = dadosRestaurante.descricao_longa;
+            }
+
+
+            // Popular comodidades
+            const comodidadesContainer = document.getElementById('lista-comodidades');
+            comodidadesContainer.innerHTML = ''; // Limpa antes de adicionar
+            for (const [comodidade, disponivel] of Object.entries(dadosRestaurante.comodidades)) {
+                const li = document.createElement('li');
+                li.className = 'col-md-6 info-item'; 
+                const iconClass = disponivel ? 'fas fa-check-circle' : 'fas fa-times-circle';
+                const nomeComodidadeFormatado = formatarNomeComodidade(comodidade);
+                li.innerHTML = `<i class="${iconClass}"></i> ${nomeComodidadeFormatado}`;
+                comodidadesContainer.appendChild(li);
+            }
+
+            // Popular galeria de fotos (Visão Geral)
+            const galeriaContainer = document.getElementById('rest-galeria-fotos');
+            galeriaContainer.innerHTML = ''; // Limpa placeholders
+            if (dadosRestaurante.fotos_galeria && dadosRestaurante.fotos_galeria.length > 0) {
+                dadosRestaurante.fotos_galeria.slice(0, 4).forEach(fotoUrl => { // Limita a 4 fotos para o exemplo
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 col-6 mb-3';
+                    col.innerHTML = `<img src="${fotoUrl}" class="img-fluid rounded" alt="Foto da galeria do restaurante" style="height: 150px; width:100%; object-fit: cover;">`;
+                    galeriaContainer.appendChild(col);
+                });
+            } else {
+                galeriaContainer.innerHTML = '<p class="col-12 text-muted">Nenhuma foto adicional na galeria.</p>';
+            }
+
+
+            // Popular avaliações
+            const listaAvaliacoesContainer = document.getElementById('lista-avaliacoes');
+            listaAvaliacoesContainer.innerHTML = ''; // Limpa antes de adicionar
+            const avaliacoesDoRestaurante = todasAvaliacoes.filter(rev => rev.id_restaurante === dadosRestaurante._id);
+            document.getElementById('total-reviews').textContent = avaliacoesDoRestaurante.length;
+
+            if (avaliacoesDoRestaurante.length === 0) {
+                listaAvaliacoesContainer.innerHTML = '<p class="text-center text-muted mt-3">Este restaurante ainda não possui avaliações.</p>';
+            } else {
+                avaliacoesDoRestaurante.forEach(review => {
+                    const usuario = todosUsuarios[review.id_usuario] || { nome: "Usuário Anônimo", foto: "https://via.placeholder.com/50" };
+                    const estrelasReviewHTML = gerarEstrelas(review.nota);
+
+                    let fotosReviewHTML = '';
+                    if (review.fotos && review.fotos.length > 0) {
+                        review.fotos.forEach(fotoUrl => {
+                            fotosReviewHTML += `<img src="${fotoUrl}" alt="Foto da avaliação" class="review-photos">`;
+                        });
+                    }
+
+                    const reviewCardHTML = `
+                        <div class="card review-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start">
+                                    <img src="${usuario.foto}" alt="${usuario.nome}" class="review-user-avatar">
+                                    <div class="w-100">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0 font-weight-bold">${usuario.nome}</h6>
+                                            <small class="text-muted">${new Date(review.data).toLocaleDateString('pt-BR')}</small>
+                                        </div>
+                                        <div class="review-stars my-1">${estrelasReviewHTML} <span class="ml-1 font-weight-bold">${review.nota.toFixed(1)}</span></div>
+                                        <p class="card-text mb-1">${review.comentario}</p>
+                                        ${fotosReviewHTML ? `<div class="mt-2">${fotosReviewHTML}</div>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    listaAvaliacoesContainer.innerHTML += reviewCardHTML;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
