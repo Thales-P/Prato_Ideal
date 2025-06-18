@@ -1,37 +1,64 @@
-
+/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Istok Web', sans-serif;
+    font-family: 'Istok Web', sans-serif; /* Mantenha sua fonte aqui */
 }
 
+/* --- ESTILOS GERAIS DO PROJETO --- */
+body {
+    background-color: #f8f9fa; /* Cor de fundo padrão */
+}
+#user-avatar { width: 40px; height: 40px; object-fit: cover; }
 
-.borda{
-  border: 2px solid green;
+/* Estilos dos Cards e Links */
+a.card-link, a.resultado-item-vertical { text-decoration: none; color: inherit; }
+a.card-link .card, .resultado-item-vertical { transition: all 0.2s ease-in-out; }
+a.card-link:hover .card, a.resultado-item-vertical:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+.restaurant-card img { height: 200px; object-fit: cover; }
+.rating { color: #ffc107; } /* Cor padrão das estrelas */
+
+/* Estilos para os Carrosséis */
+.carrossel-wrapper { position: relative; }
+.restaurante-carrossel { display: flex; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 1rem; min-height: 200px; align-items: center; scrollbar-width: none; }
+.restaurante-carrossel::-webkit-scrollbar { display: none; }
+.restaurante-carrossel > .col-md-3 { flex: 0 0 25%; max-width: 25%; padding: 0 var(--bs-gutter-x, 0.75rem); }
+.arrow { position: absolute; top: 40%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ddd; border-radius: 50%; width: 45px; height: 45px; font-size: 28px; font-weight: bold; line-height: 42px; text-align: center; cursor: pointer; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.arrow:hover { transform: translateY(-50%) scale(1.1); }
+.arrow-left { left: -22px; }
+.arrow-right { right: -22px; }
+
+/* Estilos para a Lista de Resultados Vertical */
+.resultado-item-vertical { display: flex; background-color: #fff; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; }
+.resultado-item-vertical img { width: 160px; height: 120px; object-fit: cover; }
+.resultado-item-vertical .info { padding: 15px 20px; }
+
+/* Estilos para o Autocomplete */
+.sugestoes-container { display: none; position: absolute; background-color: #ffffff; border: 1px solid #ddd; border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: calc(100% - 70px); max-height: 300px; overflow-y: auto; z-index: 1000; }
+.sugestao-item { padding: 10px 20px; cursor: pointer; color: #333; border-bottom: 1px solid #f0f0f0; }
+.sugestao-item:hover { background-color: #f5f5f5; }
+
+@media (max-width: 768px) {
+    .restaurante-carrossel > .col-md-3 { flex: 0 0 80%; max-width: 80%; }
+    .arrow-left { left: 5px; }
+    .arrow-right { right: 5px; }
 }
 
-
-/* Barra de navegação superior */
+/* Estilos antigos da sua navbar e header */
 #nav-top {
     width: 100%;
     height: 80px;
     padding: 15px;
-    background-color:;
 }
-
-/* Logo */
 #logo-nav {
     height: 100%;
     align-items: center;
 }
-
 #img-logo-nav {
     height: 50px;
     margin-bottom: 10px;
 }
-
-/* Barra de pesquisa */
 #barra-pesquisa {
     height: 48px;
     font-size: 1rem;
@@ -39,34 +66,24 @@
     border-radius: 25px 0 0 25px;
     border: none;
 }
-
 #barra-pesquisa-container .btn {
     height: 48px;
     border-radius: 0 25px 25px 0;
     border: none;
     background-color: #ffffff;
 }
-
 #barra-pesquisa-container {
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
-
-/* perfil */
 #perfil-nav {
     height: 100%;
     align-items: center;
 }
-
 #img-perfil-nav {
     margin-left: 10px;
     height: 60px;
     margin-bottom: 5px;
 }
-
-
-
-/* header */
-
 
 header {
     width: 100%;
@@ -78,35 +95,28 @@ header {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
-
-  .header-content {
+}
+.header-content {
     max-width: 1400px;
     padding: 20px;
     margin: 0 auto;
     display: flex;
     align-items: center;
-  }
-
-
-  .slogan {
+}
+.slogan {
     color: #ffffff;
     font-size: 3.2rem;
     font-weight: bold;
     text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-  }
-
-
-  .search-bar input[type="text"] {
-
+}
+.search-bar input[type="text"] {
     width: 80%;
     font-size: 1.1rem;
     border-radius: 25px;
     border: none;
     padding: 14px 20px;
-  }
-
-  .search-bar button {
+}
+.search-bar button {
     height: 60px;
     width: 60px;
     padding: 12px;
@@ -116,16 +126,8 @@ header {
     border: none;
     color: white;
     cursor: pointer;
-  }
-
-
-
-
-
-
-  
-
-  .cta {
+}
+.cta {
     margin-top: 30px;
     padding: 12px 24px;
     background-color: #E67E22;
@@ -134,50 +136,194 @@ header {
     font-size: 1.1rem;
     cursor: pointer;
     color: white;
-  }
-
-  .cta:hover {
+}
+.cta:hover {
     background-color: #d35400;
-  }
-
-  .header-image img {
+}
+.header-image img {
     max-width: 400px;
     object-fit: contain;
-  }
-
- #filtros  .btn{
-  background-color: #00000070;
- }
-
-
-
-  .filter-buttons {
+}
+#filtros .btn{
+    background-color: #00000070;
+}
+.filter-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-top:25px;
-  }
-  
- 
-  
- 
-  /* main */
-  .restaurant-card img {
+}
+/* main */
+.restaurant-card img {
     height: 200px;
     object-fit: cover;
-  }
-  .rating {
-    color: #00aa6c;
-  }
-  .card-title {
+}
+.rating {
+    color: #00aa6c; /* Ajustado para a cor original que você tinha aqui */
+}
+.card-title {
     font-weight: 500;
-  }
+}
 
-  /* Footer */
-  footer {
+/* Footer */
+footer {
     background-color: #2C3E50;
     color: white;
     padding: 20px;
     text-align: center;
     margin-top: 30px;
-  }
+}
+
+/* --- CLASSES DE ACESSIBILIDADE (MOVIDAS E AJUSTADAS) --- */
+
+/* Estilos para o botão flutuante e menu de acessibilidade */
+#acessibility-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#acessibility-toggle-btn:focus, #acessibility-toggle-btn:active {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+#acessibility-menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 1040;
+    width: 250px;
+    display: none; /* Controlado por JS */
+}
+
+/* Classes para Tamanho da Fonte (aplicadas ao body E aos títulos) */
+body.font-small {
+    font-size: 0.9em !important;
+}
+body.font-small h1, body.font-small h2, body.font-small h3,
+body.font-small h4, body.font-small h5, body.font-small h6,
+body.font-small .card-title, body.font-small .navbar-brand {
+    font-size: 0.9em !important; /* Reduz o tamanho original dos títulos */
+    /* Você pode querer ajustar este valor para algo como 0.8em * o tamanho original do título */
+    /* Ex: Se h6 é 1rem, então seria 0.9em * 1rem */
+}
+
+body.font-large {
+    font-size: 1.1em !important;
+}
+body.font-large h1, body.font-large h2, body.font-large h3,
+body.font-large h4, body.font-large h5, body.font-large h6,
+body.font-large .card-title, body.font-large .navbar-brand {
+    font-size: 1.1em !important; /* Aumenta o tamanho original dos títulos */
+}
+
+body.font-larger {
+    font-size: 1.2em !important;
+}
+body.font-larger h1, body.font-larger h2, body.font-larger h3,
+body.font-larger h4, body.font-larger h5, body.font-larger h6,
+body.font-larger .card-title, body.font-larger .navbar-brand {
+    font-size: 1.2em !important; /* Aumenta ainda mais */
+}
+
+/* Classes para Contraste */
+/* Aplicado ao main-wrapper para não afetar elementos fixed como o menu de acessibilidade */
+#main-wrapper.grayscale-contrast {
+    filter: grayscale(100%) !important;
+    -webkit-filter: grayscale(100%) !important;
+}
+
+#main-wrapper.high-contrast {
+    background-color: #000000 !important;
+    color: #FFFF00 !important;
+    /* Ajustes de variáveis CSS do Bootstrap */
+    --bs-body-color: #FFFF00 !important;
+    --bs-body-bg: #000000 !important;
+    --bs-emphasis-color: #FFFFFF !important;
+    --bs-secondary-color: #EEEEEE !important;
+    --bs-primary-rgb: 255,255,0 !important; /* Exemplo para a cor primária */
+
+    /* Elementos específicos - ajustes para alto contraste */
+    a { color: #00FF00 !important; }
+    .navbar, .footer, .card-header, .modal-header {
+        background-color: #333333 !important;
+        color: #FFFFFF !important;
+        border-color: #555555 !important;
+    }
+    .card, .modal-content, .form-container, .resultado-item-vertical {
+        background-color: #111111 !important;
+        color: #FFFF00 !important;
+        border-color: #555555 !important;
+        box-shadow: 0 4px 12px rgba(255,255,0,0.3) !important;
+    }
+    .btn-primary { background-color: #00FF00 !important; border-color: #00FF00 !important; color: #000000 !important; }
+    .btn-secondary, .btn-outline-secondary, .btn-outline-dark {
+        background-color: #666666 !important;
+        border-color: #666666 !important;
+        color: #FFFFFF !important;
+    }
+    .btn-outline-primary { /* Adicionado para a página de cadastro/login */
+        color: #FFFF00 !important;
+        border-color: #FFFF00 !important;
+    }
+    .btn-outline-primary:hover, .btn-outline-secondary:hover, .btn-outline-dark:hover {
+        background-color: #FFFF00 !important;
+        color: #000000 !important;
+    }
+    input, textarea {
+        background-color: #333333 !important;
+        color: #FFFF00 !important;
+        border: 1px solid #777777 !important;
+    }
+    input::placeholder, textarea::placeholder {
+        color: #AAAAAA !important;
+    }
+    .rating-stars .fa-star, .rating { /* Ajustado para abranger ambos */
+        color: #FFFF00 !important; /* Estrelas em amarelo no alto contraste */
+    }
+    .rating-details {
+        color: #00FF00 !important;
+    }
+    .text-muted {
+        color: #CCCCCC !important;
+    }
+    .text-primary, .fas.fa-utensils { /* Ícone do form de login/cadastro */
+        color: #00FF00 !important;
+    }
+
+    /* Estilos específicos para elementos de index.html no modo alto contraste */
+    header { /* O header também precisa de um ajuste se ele tem background fixo */
+        background: #111111 !important; /* Uma cor escura que combine */
+        color: #FFFF00 !important;
+    }
+    .slogan {
+        color: #FFFF00 !important;
+        text-shadow: none !important; /* Remover sombra para clareza */
+    }
+    .search-bar button {
+        background: #00FF00 !important; /* Botão de busca verde */
+        color: #000000 !important;
+    }
+    #filtros .btn {
+        background-color: #333333 !important; /* Botões de filtro escuros */
+        color: #FFFF00 !important;
+        border-color: #FFFF00 !important;
+    }
+    /* Para autocomplete no modo alto contraste */
+    .sugestoes-container {
+        background-color: #111111 !important;
+        border-color: #555555 !important;
+    }
+    .sugestao-item {
+        color: #FFFF00 !important;
+        border-bottom-color: #555555 !important;
+    }
+    .sugestao-item:hover {
+        background-color: #333333 !important;
+    }
+}

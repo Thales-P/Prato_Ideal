@@ -2,414 +2,478 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prato Ideal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prato Ideal</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <style>
-    /* Estilos Gerais e Antigos */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Istok Web', sans-serif;
-    }
-    .restaurant-card img {
-      height: 200px;
-      object-fit: cover;
-    }
-    .rating {
-      color: #ffc107;
-    }
-    /* Adicionando estilo para que os links dos cards não tenham decoração padrão */
-    a.card-link {
-      text-decoration: none;
-      color: inherit;
-    }
-    a.card-link .card {
-        transition: all 0.2s ease-in-out;
-    }
-    a.card-link:hover .card {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    }
-
-    /* Estilos para os Carrosséis */
-    .carrossel-wrapper {
-      position: relative;
-    }
-    .restaurante-carrossel {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      padding-bottom: 1rem;
-      min-height: 200px;
-      align-items: center;
-      scrollbar-width: none;
-    }
-    .restaurante-carrossel::-webkit-scrollbar {
-      display: none;
-    }
-    .restaurante-carrossel > .col-md-3 {
-      flex: 0 0 25%;
-      max-width: 25%;
-      scroll-snap-align: start;
-      padding-right: var(--bs-gutter-x, 0.75rem);
-      padding-left: var(--bs-gutter-x, 0.75rem);
-    }
-    .arrow {
-      position: absolute;
-      top: 40%;
-      transform: translateY(-50%);
-      background-color: rgba(255, 255, 255, 0.9);
-      border: 1px solid #ddd;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      font-size: 28px;
-      font-weight: bold;
-      line-height: 42px;
-      text-align: center;
-      cursor: pointer;
-      z-index: 10;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s;
-    }
-    .arrow:hover {
-      background-color: white;
-      transform: translateY(-50%) scale(1.1);
-    }
-    .arrow-left {
-      left: -22px;
-    }
-    .arrow-right {
-      right: -22px;
-    }
-
-    /* Estilos para a Lista de Resultados Vertical */
-    .resultado-item-vertical {
-      display: flex;
-      background-color: #fff;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      overflow: hidden;
-      transition: box-shadow 0.2s;
-      color: inherit;
-      text-decoration: none;
-    }
-    a.resultado-item-vertical:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .resultado-item-vertical img {
-      width: 160px;
-      height: 120px;
-      object-fit: cover;
-    }
-    .resultado-item-vertical .info {
-      padding: 15px 20px;
-    }
-    .resultado-item-vertical .info h5 {
-      margin-bottom: 5px;
-    }
-    
-    @media (max-width: 768px) {
-      .restaurante-carrossel > .col-md-3 {
-        flex: 0 0 80%;
-        max-width: 80%;
-      }
-      .arrow-left { left: 5px; }
-      .arrow-right { right: 5px; }
-    }
-  </style>
-</head>
+    </head>
 
 <body>
+    <button class="btn btn-primary btn-lg rounded-circle shadow" id="acessibility-toggle-btn"
+            aria-label="Abrir menu de acessibilidade">
+        <i class="fas fa-universal-access"></i>
+    </button>
 
-    <nav id="nav-top" class="navbar navbar-expand-md">
-    <div class="container-fluid container-md d-flex justify-content-between align-items-center">
-
-      <!-- Logo -->
-      <div id="logo-nav" class="d-flex align-items-center">
-        <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
-        <a class="navbar-brand fs-1 fw-bolder ms-2 d-none d-md-inline" href="#">Prato Ideal</a>
-      </div>
-
-      
-
-      <!-- Perfil -->
-      <div id="perfil-nav" class="d-flex align-items-center">
-        <a class="navbar-brand fs-3 m-0 d-none d-md-inline" href="#">ENTRAR</a>
-        <img id="img-perfil-nav" src="../imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
-      </div>
-
-    </div>
-  </nav>
-
-  <header>
-    <div class="header-content">
-      <div class="container" id="header-left">
-        <div class="float-start w-100">
-          <h1 class="slogan mb-4">Descubra, avalie e compartilhe experiências gastronômicas</h1>
-          <div id="busca-com-sugestoes-wrapper" style="position: relative;">
-            <form id="form-busca-header" class="d-flex mb-3 search-bar" role="search">
-              <input type="text" class="form-control me-2" id="searchInput" placeholder="Busque por nome..." autocomplete="off" />
-              <button id="btn-pesquisa-header" type="submit" class="btn btn-primary">🔍</button>
-            </form>
-            <div id="sugestoes-busca" class="sugestoes-container"></div>
-          </div>
-          <div id="filtros" class="d-flex flex-wrap gap-2 filter-buttons">
-            <div class="dropdown">
-              <button id="tipo-btn" class="btn btn-primary border-0 dropdown-toggle" data-bs-toggle="dropdown">Tipo 🍽️</button>
-              <ul class="dropdown-menu">
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', null)"><strong>Ver Todos</strong></button></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Brasileira')">Brasileira</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Churrascaria')">Churrascaria</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Fast Food')">Fast Food</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Italiana')">Italiana</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Japonesa')">Japonesa</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Vegetariana')">Vegetariana</button></li>
-              </ul>
-            </div>
-          </div>
+    <div id="acessibility-menu" class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <span>Acessibilidade</span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Fechar menu" id="acessibility-close-btn"></button>
         </div>
-      </div>
-      <div class="container" id="header-right">
-        <div class="header-image float-end"><img src="imagens/header-img.png" alt="Pessoas comendo" /></div>
-      </div>
-    </div>
-  </header>
-
-  <section id="resultados-busca-container" class="container mt-5" style="display: none;">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 id="titulo-resultados">Resultados</h2>
-      <button id="fechar-busca-btn" class="btn-close" aria-label="Fechar"></button>
-    </div>
-    <div id="lista-resultados-busca" class="d-flex flex-column gap-3"></div>
-  </section>
-
-  <main id="main-content-wrapper">
-    <section class="container mt-5"><h2 class="mb-3"><strong>Melhores Avaliados</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-avaliados" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
-    <section class="container mt-5"><h2 class="mb-3"><strong>Ótimos Preços</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-precos" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
-    <section class="container mt-5"><h2 class="mb-3"><strong>Sabores da Itália</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-italiana" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
-    <section class="container mt-5"><h2 class="mb-3"><strong>Cozinha Japonesa</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-japonesa" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
-  </main>
-  
-  <footer class="py-3 mt-5"><div class="text-center"><div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div></div></footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-      // --- 1. CONFIGURAÇÕES E ELEMENTOS ---
-      const BASE_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
-      let listaCompletaRestaurantes = [];
-
-      const mainContentWrapper = document.getElementById('main-content-wrapper');
-      const resultadosContainer = document.getElementById('resultados-busca-container');
-      const listaResultadosBusca = document.getElementById('lista-resultados-busca');
-      const tituloResultados = document.getElementById('titulo-resultados');
-      const fecharBuscaBtn = document.getElementById('fechar-busca-btn');
-      
-      const searchForm = document.getElementById('form-busca-header');
-      const searchInput = document.getElementById('searchInput');
-      const sugestoesContainer = document.getElementById('sugestoes-busca');
-
-      // --- 2. FUNÇÕES DE API ---
-      async function fetchApiData(endpoint = '') {
-        const urlFinal = endpoint ? `${BASE_URL}/${endpoint}` : BASE_URL;
-        const response = await fetch(urlFinal);
-        if (!response.ok) throw new Error(`API Error: Status ${response.status}`);
-        const text = await response.text();
-        return text ? JSON.parse(text) : [];
-      }
-
-      // --- 3. FUNÇÕES DE UI (INTERFACE) ---
-      function mostrarSpinner(container) {
-        if(container) container.innerHTML = `<div class="d-flex justify-content-center w-100"><div class="spinner-border text-primary" role="status"></div></div>`;
-      }
-
-      function renderizarCarrossel(containerId, lista) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        container.innerHTML = '';
-        if (lista.length === 0) {
-          container.innerHTML = '<div class="col-12"><p class="text-muted p-3">Nenhum restaurante nesta categoria.</p></div>';
-          return;
-        }
-        lista.forEach(restaurante => container.innerHTML += criarCardHtml(restaurante));
-      }
-      
-      function renderizarResultadosBusca(lista) {
-        listaResultadosBusca.innerHTML = '';
-        if (lista.length === 0) {
-          listaResultadosBusca.innerHTML = '<p class="text-muted">Nenhum restaurante encontrado.</p>';
-          return;
-        }
-        lista.forEach(restaurante => listaResultadosBusca.innerHTML += criarItemListaVerticalHtml(restaurante));
-      }
-
-      function criarCardHtml(restaurante) {
-        const imageUrl = restaurante.Foto || `https://source.unsplash.com/random/400x300?food,dish&sig=${restaurante.Id}`;
-        const ratingHtml = restaurante.AvaliacaoMedia != null ? `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))}</p>` : '<p class="text-muted small mb-1">Sem avaliações</p>';
-        const enderecoHtml = (restaurante.Endereco) ? `<p class="text-muted small mt-auto">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>` : '';
-        
-        // Envolve o card em uma tag <a> com o link para a página de detalhes
-        return `
-          <div class="col-md-3">
-            <a href="html/restaurante.html?id=${restaurante.Id}" class="card-link">
-              <div class="card restaurant-card h-100">
-                <img src="${imageUrl}" class="card-img-top" alt="Foto de ${restaurante.Nome}">
-                <div class="card-body d-flex flex-column">
-                  <h6 class="card-title">${restaurante.Nome}</h6>
-                  ${ratingHtml}
-                  ${enderecoHtml}
-                </div>
-              </div>
-            </a>
-          </div>`;
-      }
-      
-      function criarItemListaVerticalHtml(restaurante) {
-        const imageUrl = restaurante.Foto || `https://source.unsplash.com/random/400x300?food,dish&sig=${restaurante.Id}`;
-        const ratingHtml = restaurante.AvaliacaoMedia != null ? `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))}</p>` : '<p class="text-muted small mb-1">Sem avaliações</p>';
-        const enderecoHtml = (restaurante.Endereco) ? `<p class="text-muted small">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>` : '';
-
-        // Envolve o item da lista em uma tag <a>
-        return `
-          <a href="html/restaurante.html?id=${restaurante.Id}" class="resultado-item-vertical card-link">
-            <img src="${imageUrl}" alt="Foto de ${restaurante.Nome}">
-            <div class="info">
-              <h5>${restaurante.Nome}</h5>
-              ${ratingHtml}
-              ${enderecoHtml}
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Tamanho da Fonte</h6>
+            <div class="d-flex justify-content-around mb-3">
+                <button class="btn btn-outline-secondary" id="font-decrease" aria-label="Diminuir fonte">A-</button>
+                <button class="btn btn-outline-secondary" id="font-reset" aria-label="Tamanho padrão">A</button>
+                <button class="btn btn-outline-secondary" id="font-increase" aria-label="Aumentar fonte">A+</button>
             </div>
-          </a>`;
-      }
-      
-      function alternarVisibilidade(mostrarResultados) {
-        mainContentWrapper.style.display = mostrarResultados ? 'none' : 'block';
-        resultadosContainer.style.display = mostrarResultados ? 'block' : 'none';
-      }
-      
-      function configurarSetasDosCarrosseis() {
-        document.querySelectorAll('.carrossel-wrapper').forEach(wrapper => {
-          const carrossel = wrapper.querySelector('.restaurante-carrossel');
-          const arrowLeft = wrapper.querySelector('.arrow-left');
-          const arrowRight = wrapper.querySelector('.arrow-right');
-          if (carrossel && arrowLeft && arrowRight) {
-            arrowLeft.addEventListener('click', () => carrossel.scrollBy({ left: -carrossel.clientWidth * 0.8, behavior: 'smooth' }));
-            arrowRight.addEventListener('click', () => carrossel.scrollBy({ left: carrossel.clientWidth * 0.8, behavior: 'smooth' }));
-          }
+
+            <h6 class="card-subtitle mb-2 text-muted">Contraste</h6>
+            <div class="d-grid gap-2">
+                <button class="btn btn-outline-dark" id="contrast-low" aria-label="Baixo Contraste (Tons de Cinza)">Tons de Cinza</button>
+                <button class="btn btn-outline-dark" id="contrast-high" aria-label="Alto Contraste">Alto Contraste</button>
+                <button class="btn btn-outline-dark" id="contrast-reset" aria-label="Contraste Padrão">Contraste Padrão</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <nav id="nav-top" class="navbar navbar-expand-md bg-light shadow-sm">
+            <div class="container">
+                <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
+                <a class="navbar-brand fs-2 fw-bolder" href="index.html">Prato Ideal</a>
+                <div class="ms-auto">
+                    <div id="nav-user-section" class="d-flex align-items-center">
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header>
+            <div class="header-content">
+                <div class="container" id="header-left">
+                    <div class="float-start w-100">
+                        <h1 class="slogan mb-4">Descubra, avalie e compartilhe experiências gastronômicas</h1>
+                        <div id="busca-com-sugestoes-wrapper" style="position: relative;">
+                            <form id="form-busca-header" class="d-flex mb-3 search-bar" role="search" onsubmit="event.preventDefault();">
+                                <input type="text" class="form-control me-2" id="searchInput" placeholder="Busque por nome de restaurante..." autocomplete="off" />
+                                <button id="btn-pesquisa-header" type="submit" class="btn btn-primary">🔍</button>
+                            </form>
+                            <div id="sugestoes-busca" class="sugestoes-container"></div>
+                        </div>
+                        <div id="filtros" class="d-flex flex-wrap gap-2 filter-buttons">
+                            <div class="dropdown">
+                                <button id="tipo-btn" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">Tipo 🍽️</button>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', null)"><strong>Ver Todos</strong></button></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Brasileira')">Brasileira</button></li>
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Churrascaria')">Churrascaria</button></li>
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Fast Food')">Fast Food</button></li>
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Italiana')">Italiana</button></li>
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Japonesa')">Japonesa</button></li>
+                                    <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Vegetariana')">Vegetariana</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container" id="header-right">
+                    <div class="header-image float-end"><img src="imagens/header-img.png" alt="Pessoas comendo" /></div>
+                </div>
+            </div>
+        </header>
+
+        <section id="resultados-busca-container" class="container mt-5" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="titulo-resultados">Resultados</h2>
+                <button id="fechar-busca-btn" class="btn-close" aria-label="Fechar"></button>
+            </div>
+            <div id="lista-resultados-busca" class="d-flex flex-column gap-3"></div>
+        </section>
+
+        <main id="main-content-wrapper">
+            <section class="container mt-5">
+                <h2 class="mb-3"><strong>Melhores Avaliados</strong></h2>
+                <div class="carrossel-wrapper">
+                    <button class="arrow arrow-left">‹</button>
+                    <div id="carrossel-avaliados" class="restaurante-carrossel"></div>
+                    <button class="arrow arrow-right">›</button>
+                </div>
+            </section>
+            <section class="container mt-5">
+                <h2 class="mb-3"><strong>Ótimos Preços</strong></h2>
+                <div class="carrossel-wrapper">
+                    <button class="arrow arrow-left">‹</button>
+                    <div id="carrossel-precos" class="restaurante-carrossel"></div>
+                    <button class="arrow arrow-right">›</button>
+                </div>
+            </section>
+            <section class="container mt-5">
+                <h2 class="mb-3"><strong>Sabores da Itália</strong></h2>
+                <div class="carrossel-wrapper">
+                    <button class="arrow arrow-left">‹</button>
+                    <div id="carrossel-italiana" class="restaurante-carrossel"></div>
+                    <button class="arrow arrow-right">›</button>
+                </div>
+            </section>
+            <section class="container mt-5">
+                <h2 class="mb-3"><strong>Cozinha Japonesa</strong></h2>
+                <div class="carrossel-wrapper">
+                    <button class="arrow arrow-left">‹</button>
+                    <div id="carrossel-japonesa" class="restaurante-carrossel"></div>
+                    <button class="arrow arrow-right">›</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="py-3 mt-5 bg-dark text-white text-center">
+            <div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. CONFIGURAÇÕES E ELEMENTOS ---
+            const BASE_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
+            let listaCompletaRestaurantes = [];
+
+            const mainContentWrapper = document.getElementById('main-content-wrapper');
+            const resultadosContainer = document.getElementById('resultados-busca-container');
+            const listaResultadosBusca = document.getElementById('lista-resultados-busca');
+            const tituloResultados = document.getElementById('titulo-resultados');
+            const fecharBuscaBtn = document.getElementById('fechar-busca-btn');
+            const searchForm = document.getElementById('form-busca-header');
+            const searchInput = document.getElementById('searchInput');
+            const sugestoesContainer = document.getElementById('sugestoes-busca');
+
+            // --- 2. LÓGICA DE LOGIN E NAVBAR ---
+            function parseJwt(token) {
+                try { return JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (e) { return null; }
+            }
+
+            function getUsuarioLogado() {
+                const token = localStorage.getItem('token');
+                if (!token) return null;
+                const decoded = parseJwt(token);
+                if (decoded && decoded.exp * 1000 > Date.now()) {
+                    return { Id: decoded.nameid, Nome: decoded.unique_name, Foto: `https://i.pravatar.cc/150?u=${decoded.nameid}` };
+                }
+                localStorage.removeItem('token');
+                return null;
+            }
+
+            function handleLogout() {
+                localStorage.removeItem('token');
+                window.location.reload();
+            }
+
+            function configurarNavbar() {
+                const userSection = document.getElementById('nav-user-section');
+                const usuario = getUsuarioLogado();
+                if (userSection) {
+                    if (usuario && usuario.Nome) {
+                        userSection.innerHTML = `
+                            <span class="navbar-text me-3">Olá, <strong>${usuario.Nome.split(' ')[0]}</strong></span>
+                            <a href="#?id=${usuario.Id}"><img src="${usuario.Foto}" alt="Avatar" id="user-avatar" class="rounded-circle"></a>
+                            <button id="btn-logout" class="btn btn-link text-secondary ms-2 text-decoration-none">Sair</button>
+                        `;
+                        document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
+                    } else {
+                        userSection.innerHTML = '<a href="html/login.html" class="btn btn-primary fw-bold">ENTRAR</a>';
+                    }
+                }
+            }
+
+            // --- 3. FUNÇÕES DE API ---
+            async function fetchApiData(endpoint = '') {
+                const urlFinal = endpoint ? `${BASE_URL}/${endpoint}` : BASE_URL;
+                const response = await fetch(urlFinal);
+                if (!response.ok) throw new Error(`API Error: Status ${response.status}`);
+                const text = await response.text();
+                return text ? JSON.parse(text) : [];
+            }
+
+            // --- 4. FUNÇÕES DE UI (INTERFACE) ---
+            function mostrarSpinner(container) {
+                if(container) container.innerHTML = `<div class="d-flex justify-content-center w-100"><div class="spinner-border text-primary" role="status"></div></div>`;
+            }
+
+            function renderizarCarrossel(containerId, lista) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                container.innerHTML = '';
+                if (lista.length === 0) {
+                    container.innerHTML = '<div class="col-12"><p class="text-muted p-3">Nenhum restaurante nesta categoria.</p></div>';
+                    return;
+                }
+                lista.forEach(restaurante => container.innerHTML += criarCardHtml(restaurante));
+            }
+
+            function renderizarResultadosBusca(lista) {
+                if (!listaResultadosBusca) return;
+                listaResultadosBusca.innerHTML = '';
+                if (lista.length === 0) {
+                    listaResultadosBusca.innerHTML = '<p class="text-muted">Nenhum restaurante encontrado.</p>';
+                    return;
+                }
+                lista.forEach(restaurante => listaResultadosBusca.innerHTML += criarItemListaVerticalHtml(restaurante));
+            }
+
+            function criarCardHtml(restaurante) {
+                const imageUrl = restaurante.Foto || `https://placehold.co/400x300?text=Restaurante`; // Corrigido URL de placeholder
+                const ratingHtml = restaurante.AvaliacaoMedia != null ? `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))}</p>` : '<p class="text-muted small mb-1">Sem avaliações</p>';
+                const enderecoHtml = (restaurante.Endereco) ? `<p class="text-muted small mt-auto">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>` : '';
+                return `<div class="col-md-3"><a href="html/restaurante.html?id=${restaurante.Id}" class="card-link"><div class="card restaurant-card h-100"><img src="${imageUrl}" class="card-img-top" alt="Foto de ${restaurante.Nome}"><div class="card-body d-flex flex-column"><h6 class="card-title">${restaurante.Nome}</h6>${ratingHtml}${enderecoHtml}</div></div></a></div>`;
+            }
+
+            function criarItemListaVerticalHtml(restaurante) {
+                const imageUrl = restaurante.Foto || `https://placehold.co/160x120?text=Restaurante`; // Corrigido URL de placeholder
+                const ratingHtml = restaurante.AvaliacaoMedia != null ? `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))}</p>` : '<p class="text-muted small mb-1">Sem avaliações</p>';
+                const enderecoHtml = (restaurante.Endereco) ? `<p class="text-muted small">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>` : '';
+                return `<a href="html/restaurante.html?id=${restaurante.Id}" class="resultado-item-vertical card-link"><img src="${imageUrl}" alt="Foto de ${restaurante.Nome}"><div class="info"><h5>${restaurante.Nome}</h5>${ratingHtml}${enderecoHtml}</div></a>`;
+            }
+
+            function alternarVisibilidade(mostrarResultados) {
+                if (mainContentWrapper) mainContentWrapper.style.display = mostrarResultados ? 'none' : 'block';
+                if (resultadosContainer) resultadosContainer.style.display = mostrarResultados ? 'block' : 'none';
+            }
+
+            function configurarSetasDosCarrosseis() {
+                document.querySelectorAll('.carrossel-wrapper').forEach(wrapper => {
+                    const carrossel = wrapper.querySelector('.restaurante-carrossel');
+                    const arrowLeft = wrapper.querySelector('.arrow-left');
+                    const arrowRight = wrapper.querySelector('.arrow-right');
+                    if (carrossel && arrowLeft && arrowRight) {
+                        arrowLeft.addEventListener('click', () => carrossel.scrollBy({ left: -carrossel.clientWidth * 0.8, behavior: 'smooth' }));
+                        arrowRight.addEventListener('click', () => carrossel.scrollBy({ left: carrossel.clientWidth * 0.8, behavior: 'smooth' }));
+                    }
+                });
+            }
+
+            function executarFiltro(criterio, valor) {
+                let resultados = [];
+                if (criterio === 'tipo') {
+                    if (tituloResultados) tituloResultados.textContent = `Cozinha: ${valor}`;
+                    resultados = listaCompletaRestaurantes.filter(r => r.Categoria === valor);
+                } else if (criterio === 'busca') {
+                    if (tituloResultados) tituloResultados.textContent = `Resultados para "${valor}"`;
+                    const termo = valor.toLowerCase();
+                    resultados = listaCompletaRestaurantes.filter(r => r.Nome.toLowerCase().includes(termo));
+                }
+                resultados.sort((a, b) => (b.AvaliacaoMedia || 0) - (a.AvaliacaoMedia || 0));
+                renderizarResultadosBusca(resultados);
+                alternarVisibilidade(true);
+            }
+
+            function exibirSugestoes(sugestoes) {
+                if (!sugestoesContainer) return;
+                sugestoesContainer.innerHTML = '';
+                if (sugestoes.length === 0) { sugestoesContainer.style.display = 'none'; return; }
+                sugestoes.slice(0, 5).forEach(sugestao => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.textContent = sugestao.Nome;
+                    itemDiv.className = 'sugestao-item';
+                    itemDiv.onclick = () => {
+                        if (searchInput) searchInput.value = sugestao.Nome;
+                        sugestoesContainer.style.display = 'none';
+                    };
+                    sugestoesContainer.appendChild(itemDiv);
+                });
+                sugestoesContainer.style.display = 'block';
+            }
+
+            // --- 5. LÓGICA PRINCIPAL DE MONTAGEM ---
+            async function montarPaginaInicial() {
+                configurarNavbar();
+
+                const carrosselIds = ['carrossel-avaliados', 'carrossel-precos', 'carrossel-italiana', 'carrossel-japonesa'];
+                carrosselIds.forEach(id => mostrarSpinner(document.getElementById(id)));
+
+                try {
+                    const [todos, melhores] = await Promise.all([ fetchApiData(), fetchApiData('melhores') ]);
+                    listaCompletaRestaurantes = todos;
+
+                    const otimosPrecos = todos.filter(r => r.FaixaPreco === '$').slice(0, 10);
+                    const italianos = todos.filter(r => r.Categoria === 'Italiana');
+                    const japoneses = todos.filter(r => r.Categoria === 'Japonesa');
+
+                    renderizarCarrossel('carrossel-avaliados', melhores);
+                    renderizarCarrossel('carrossel-precos', otimosPrecos);
+                    renderizarCarrossel('carrossel-italiana', italianos);
+                    renderizarCarrossel('carrossel-japonesa', japoneses);
+
+                    configurarSetasDosCarrosseis();
+                } catch (error) {
+                    console.error("Erro ao montar a página inicial:", error);
+                    if (mainContentWrapper) mainContentWrapper.innerHTML = `<div class="container mt-5"><p class="text-danger text-center h4">Oops! Não foi possível carregar.</p></div>`;
+                }
+            }
+
+            // --- 6. GATILHOS DE EVENTOS ---
+            window.selectFilter = (tipo, valor) => {
+                if (valor === null) { alternarVisibilidade(false); return; }
+                executarFiltro(tipo, valor);
+            };
+
+            if (searchForm) {
+                searchForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const termo = searchInput?.value.trim();
+                    if (termo) executarFiltro('busca', termo);
+                });
+            }
+
+            if (fecharBuscaBtn) {
+                fecharBuscaBtn.addEventListener('click', () => alternarVisibilidade(false));
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    const termo = searchInput.value.toLowerCase().trim();
+                    if (termo.length < 2) {
+                        if (sugestoesContainer) sugestoesContainer.style.display = 'none';
+                        return;
+                    }
+                    const sugestoesFiltradas = listaCompletaRestaurantes.filter(r => r.Nome.toLowerCase().includes(termo));
+                    exibirSugestoes(sugestoesFiltradas);
+                });
+            }
+
+            document.addEventListener('click', (event) => {
+                if (searchInput && sugestoesContainer && !searchInput.contains(event.target) && !sugestoesContainer.contains(event.target)) {
+                    sugestoesContainer.style.display = 'none';
+                }
+            });
+
+
+            // --- LÓGICA DO MENU DE ACESSIBILIDADE ---
+            const body = document.body;
+            const mainWrapper = document.getElementById('main-wrapper'); // Obtenha o novo wrapper
+            const fontDecreaseBtn = document.getElementById('font-decrease');
+            const fontResetBtn = document.getElementById('font-reset');
+            const fontIncreaseBtn = document.getElementById('font-increase');
+            const contrastLowBtn = document.getElementById('contrast-low');
+            const contrastHighBtn = document.getElementById('contrast-high');
+            const contrastResetBtn = document.getElementById('contrast-reset');
+
+            const acessibilityToggleBtn = document.getElementById('acessibility-toggle-btn');
+            const acessibilityCloseBtn = document.getElementById('acessibility-close-btn');
+            const acessibilityMenu = document.getElementById('acessibility-menu');
+
+            if (acessibilityMenu) {
+                acessibilityMenu.style.display = 'none';
+            }
+
+            const FONT_SIZES = ['font-small', '', 'font-large', 'font-larger'];
+            let currentFontSizeIndex = 1;
+
+            function applyFontSize(index) {
+                FONT_SIZES.forEach(className => {
+                    if (className) {
+                        body.classList.remove(className);
+                    }
+                });
+                if (FONT_SIZES[index]) {
+                    body.classList.add(FONT_SIZES[index]);
+                }
+                localStorage.setItem('acessibilityFontSizeIndex', index);
+                currentFontSizeIndex = index;
+            }
+
+            function applyContrast(mode) {
+                // Aplica/remove classes do #main-wrapper
+                if (mainWrapper) { // Garante que mainWrapper existe
+                    mainWrapper.classList.remove('grayscale-contrast', 'high-contrast');
+
+                    if (mode === 'low') {
+                        mainWrapper.classList.add('grayscale-contrast');
+                    } else if (mode === 'high') {
+                        mainWrapper.classList.add('high-contrast');
+                    }
+                }
+                localStorage.setItem('acessibilityContrastMode', mode);
+            }
+
+            function loadAcessibilityPreferences() {
+                const savedFontSizeIndex = localStorage.getItem('acessibilityFontSizeIndex');
+                if (savedFontSizeIndex !== null) {
+                    currentFontSizeIndex = parseInt(savedFontSizeIndex);
+                    if (currentFontSizeIndex >= 0 && currentFontSizeIndex < FONT_SIZES.length) {
+                        applyFontSize(currentFontSizeIndex);
+                    } else {
+                        applyFontSize(1);
+                    }
+                }
+
+                const savedContrastMode = localStorage.getItem('acessibilityContrastMode');
+                if (savedContrastMode) {
+                    applyContrast(savedContrastMode);
+                }
+            }
+
+            // Event Listeners para o menu de acessibilidade
+            if (acessibilityToggleBtn && acessibilityMenu) {
+                acessibilityToggleBtn.addEventListener('click', () => {
+                    acessibilityMenu.style.display = acessibilityMenu.style.display === 'none' ? 'block' : 'none';
+                    acessibilityToggleBtn.setAttribute('aria-expanded', acessibilityMenu.style.display === 'block');
+                });
+            }
+            if (acessibilityCloseBtn && acessibilityMenu) {
+                acessibilityCloseBtn.addEventListener('click', () => {
+                    acessibilityMenu.style.display = 'none';
+                    acessibilityToggleBtn.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            if (fontDecreaseBtn) {
+                fontDecreaseBtn.addEventListener('click', () => {
+                    if (currentFontSizeIndex > 0) {
+                        applyFontSize(currentFontSizeIndex - 1);
+                    }
+                });
+            }
+
+            if (fontResetBtn) {
+                fontResetBtn.addEventListener('click', () => {
+                    applyFontSize(1);
+                });
+            }
+
+            if (fontIncreaseBtn) {
+                fontIncreaseBtn.addEventListener('click', () => {
+                    if (currentFontSizeIndex < FONT_SIZES.length - 1) {
+                        applyFontSize(currentFontSizeIndex + 1);
+                    }
+                });
+            }
+
+            if (contrastLowBtn) {
+                contrastLowBtn.addEventListener('click', () => applyContrast('low'));
+            }
+
+            if (contrastHighBtn) {
+                contrastHighBtn.addEventListener('click', () => applyContrast('high'));
+            }
+
+            if (contrastResetBtn) {
+                contrastResetBtn.addEventListener('click', () => applyContrast('default'));
+            }
+
+            // Carregar as preferências de acessibilidade assim que o DOM for carregado
+            loadAcessibilityPreferences();
+
+
+            // INICIA A APLICAÇÃO PRINCIPAL DA PÁGINA
+            montarPaginaInicial();
         });
-      }
-
-      // --- 4. LÓGICA PRINCIPAL E EVENTOS ---
-      async function montarPaginaInicial() {
-        const carrosselIds = ['carrossel-avaliados', 'carrossel-precos', 'carrossel-italiana', 'carrossel-japonesa'];
-        carrosselIds.forEach(id => mostrarSpinner(document.getElementById(id)));
-        
-        try {
-          const [todos, melhores] = await Promise.all([ fetchApiData(), fetchApiData('melhores') ]);
-          listaCompletaRestaurantes = todos;
-          
-          const otimosPrecos = todos.filter(r => r.FaixaPreco === '$').slice(0, 10);
-          const italianos = todos.filter(r => r.Categoria === 'Italiana');
-          const japoneses = todos.filter(r => r.Categoria === 'Japonesa');
-
-          renderizarCarrossel('carrossel-avaliados', melhores);
-          renderizarCarrossel('carrossel-precos', otimosPrecos);
-          renderizarCarrossel('carrossel-italiana', italianos);
-          renderizarCarrossel('carrossel-japonesa', japoneses);
-          
-          configurarSetasDosCarrosseis();
-        } catch (error) {
-          console.error("Erro ao montar a página inicial:", error);
-          mainContentWrapper.innerHTML = `<div class="container mt-5"><p class="text-danger text-center h4">Oops! Não foi possível carregar.</p></div>`;
-        }
-      }
-      
-      function executarFiltro(criterio, valor) {
-        let resultados = [];
-        if (criterio === 'tipo') {
-          tituloResultados.textContent = `Cozinha: ${valor}`;
-          resultados = listaCompletaRestaurantes.filter(r => r.Categoria === valor);
-        } else if (criterio === 'busca') {
-          tituloResultados.textContent = `Resultados para "${valor}"`;
-          const termo = valor.toLowerCase();
-          resultados = listaCompletaRestaurantes.filter(r => r.Nome.toLowerCase().includes(termo));
-        }
-        resultados.sort((a, b) => (b.AvaliacaoMedia || 0) - (a.AvaliacaoMedia || 0));
-        renderizarResultadosBusca(resultados);
-        alternarVisibilidade(true);
-      }
-      
-      // Lógica do autocomplete...
-      function exibirSugestoes(sugestoes) {
-        sugestoesContainer.innerHTML = '';
-        if (sugestoes.length === 0) {
-          sugestoesContainer.style.display = 'none';
-          return;
-        }
-        sugestoes.slice(0, 5).forEach(sugestao => {
-          const itemDiv = document.createElement('div');
-          itemDiv.textContent = sugestao.Nome;
-          itemDiv.className = 'sugestao-item';
-          itemDiv.onclick = () => {
-            searchInput.value = sugestao.Nome;
-            sugestoesContainer.innerHTML = '';
-            sugestoesContainer.style.display = 'none';
-          };
-          sugestoesContainer.appendChild(itemDiv);
-        });
-        sugestoesContainer.style.display = 'block';
-      }
-
-      searchInput.addEventListener('input', () => {
-        const termo = searchInput.value.toLowerCase().trim();
-        if (termo.length < 2) {
-          sugestoesContainer.style.display = 'none';
-          return;
-        }
-        const sugestoesFiltradas = listaCompletaRestaurantes.filter(restaurante =>
-          restaurante.Nome.toLowerCase().includes(termo)
-        );
-        exibirSugestoes(sugestoesFiltradas);
-      });
-
-      // --- Gatilhos de eventos ---
-      window.selectFilter = (tipo, valor) => {
-        if (valor === null) { alternarVisibilidade(false); return; }
-        executarFiltro(tipo, valor);
-      };
-
-      searchForm.addEventListener('submit', (e) => {
-        const termo = searchInput.value.trim();
-        if (termo) executarFiltro('busca', termo);
-      });
-
-      fecharBuscaBtn.addEventListener('click', () => alternarVisibilidade(false));
-      
-      document.addEventListener('click', (event) => {
-        if (!searchInput.contains(event.target) && !sugestoesContainer.contains(event.target)) {
-          sugestoesContainer.style.display = 'none';
-        }
-      });
-
-      // Inicia a aplicação
-      montarPaginaInicial();
-    });
-  </script>
-
-  <a href="html/restaurante.html"></a>
+    </script>
 </body>
 </html>

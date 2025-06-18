@@ -1,292 +1,662 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carregando Restaurante...</title> 
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body { background-color: #f8f9fa; }
-    #restaurante-header { min-height: 40vh; background-size: cover; background-position: center; position: relative; color: white; display: flex; align-items: flex-end; padding: 2rem; border-radius: 0 0 15px 15px; }
-    #restaurante-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, transparent 100%); border-radius: 0 0 15px 15px; }
-    #restaurante-header * { position: relative; z-index: 2; }
-    .rating-details { font-size: 1.2rem; color: #ffc107; }
-    .review-card { border: 1px solid #e9ecef; }
-    .review-user-avatar { width: 50px; height: 50px; object-fit: cover; }
-    .review-photos img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; margin-right: 10px; cursor: pointer; }
-    .rating-stars { font-size: 2rem; color: #ccc; cursor: pointer; }
-    .rating-stars .fas.fa-star { color: #ffc107; }
-    #user-avatar { width: 40px; height: 40px; object-fit: cover; }
-    #img-logo-nav { width: 50px; height: 50px; margin-right: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando Restaurante...</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        #restaurante-header { min-height: 40vh; background-size: cover; background-position: center; position: relative; color: white; display: flex; align-items: flex-end; padding: 2rem; border-radius: 0 0 15px 15px; }
+        #restaurante-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, transparent 100%); border-radius: 0 0 15px 15px; }
+        #restaurante-header * { position: relative; z-index: 2; }
+        .rating-details { font-size: 1.2rem; color: #ffc107; }
+        .review-card { border: 1px solid #e9ecef; }
+        .review-user-avatar { width: 50px; height: 50px; object-fit: cover; }
+        .review-photos img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; margin-right: 10px; cursor: pointer; }
+        .rating-stars { font-size: 2rem; color: #ccc; cursor: pointer; }
+        .rating-stars .fas.fa-star { color: #ffc107; }
+        #user-avatar { width: 40px; height: 40px; object-fit: cover; }
+        #img-logo-nav { width: 50px; height: 50px; margin-right: 10px; }
+
+        /* --- CLASSES DE ACESSIBILIDADE (IDEALMENTE NO SEU style.css) --- */
+        body.font-small {
+            font-size: 0.9em; /* Ou um valor menor que o padrão */
+        }
+
+        body.font-large {
+            font-size: 1.1em;
+        }
+
+        body.font-larger {
+            font-size: 1.2em;
+        }
+
+        body.grayscale-contrast {
+            filter: grayscale(100%) !important;
+            -webkit-filter: grayscale(100%) !important; /* Para compatibilidade com navegadores webkit */
+        }
+
+        body.high-contrast {
+            background-color: #000000 !important; /* Fundo preto */
+            color: #FFFF00 !important; /* Texto amarelo */
+            /* Ajustes para elementos Bootstrap e outros elementos de texto */
+            --bs-body-color: #FFFF00 !important; /* Cor do texto padrão do Bootstrap */
+            --bs-body-bg: #000000 !important; /* Cor de fundo padrão do Bootstrap */
+            --bs-emphasis-color: #FFFFFF !important; /* Cor de texto para ênfase */
+            --bs-secondary-color: #EEEEEE !important; /* Cor de texto secundário */
+            --bs-primary-rgb: 255,255,0 !important; /* Amarelo para primário */
+
+            /* Elementos específicos */
+            a { color: #00FF00 !important; } /* Links verdes */
+            .navbar, .footer, .card-header, .modal-header {
+                background-color: #333333 !important; /* Fundo mais escuro para componentes */
+                color: #FFFFFF !important;
+                border-color: #555555 !important;
+            }
+            .card, .modal-content {
+                background-color: #111111 !important;
+                color: #FFFF00 !important;
+                border-color: #555555 !important;
+            }
+            .btn-primary { background-color: #00FF00 !important; border-color: #00FF00 !important; color: #000000 !important; }
+            .btn-secondary { background-color: #666666 !important; border-color: #666666 !important; color: #FFFFFF !important; }
+            .btn-outline-secondary, .btn-outline-dark {
+                color: #FFFF00 !important;
+                border-color: #FFFF00 !important;
+            }
+            .btn-outline-secondary:hover, .btn-outline-dark:hover {
+                background-color: #FFFF00 !important;
+                color: #000000 !important;
+            }
+            /* Inputs e Textareas */
+            input, textarea {
+                background-color: #333333 !important;
+                color: #FFFF00 !important;
+                border: 1px solid #777777 !important;
+            }
+            input::placeholder, textarea::placeholder {
+                color: #AAAAAA !important;
+            }
+            /* Estrelas de avaliação */
+            .rating-stars .fa-star {
+                color: #FFFF00 !important;
+            }
+            .rating-details {
+                color: #00FF00 !important; /* Mude para uma cor de alto contraste */
+            }
+            /* Textos mutados */
+            .text-muted {
+                color: #CCCCCC !important;
+            }
+        }
+        /* Opcional: Efeito para os botões do menu de acessibilidade ao serem clicados */
+        #acessibility-toggle-btn:focus, #acessibility-toggle-btn:active {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important; /* Exemplo de foco do Bootstrap */
+        }
+    </style>
 </head>
 <body>
-  <nav id="nav-top" class="navbar navbar-expand-md bg-light shadow-sm">
-      <div class="container">
-        <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
-          <a class="navbar-brand fs-2 fw-bolder" href="../index.html">Prato Ideal</a>
-          <div class="ms-auto">
-            <div id="nav-user-section" class="d-flex align-items-center">
+    <button class="btn btn-primary btn-lg rounded-circle shadow" id="acessibility-toggle-btn"
+            style="position: fixed; bottom: 20px; right: 20px; z-index: 1050; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;"
+            aria-label="Abrir menu de acessibilidade">
+        <i class="fas fa-universal-access"></i>
+    </button>
+
+    <div id="acessibility-menu" class="card shadow"
+         style="position: fixed; bottom: 90px; right: 20px; z-index: 1040; width: 250px; display: none;">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <span>Acessibilidade</span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Fechar menu" id="acessibility-close-btn"></button>
+        </div>
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Tamanho da Fonte</h6>
+            <div class="d-flex justify-content-around mb-3">
+                <button class="btn btn-outline-secondary" id="font-decrease" aria-label="Diminuir fonte">A-</button>
+                <button class="btn btn-outline-secondary" id="font-reset" aria-label="Tamanho padrão">A</button>
+                <button class="btn btn-outline-secondary" id="font-increase" aria-label="Aumentar fonte">A+</button>
+            </div>
+
+            <h6 class="card-subtitle mb-2 text-muted">Contraste</h6>
+            <div class="d-grid gap-2">
+                <button class="btn btn-outline-dark" id="contrast-low" aria-label="Baixo Contraste (Tons de Cinza)">Tons de Cinza</button>
+                <button class="btn btn-outline-dark" id="contrast-high" aria-label="Alto Contraste">Alto Contraste</button>
+                <button class="btn btn-outline-dark" id="contrast-reset" aria-label="Contraste Padrão">Contraste Padrão</button>
+            </div>
+        </div>
+    </div>
+
+    <nav id="nav-top" class="navbar navbar-expand-md bg-light shadow-sm">
+        <div class="container">
+            <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
+            <a class="navbar-brand fs-2 fw-bolder" href="../index.html">Prato Ideal</a>
+            <div class="ms-auto">
+                <div id="nav-user-section" class="d-flex align-items-center">
                 </div>
-          </div>
-      </div>
-  </nav>
-
-  <header id="restaurante-header">
-    <div class="container">
-        <h1 id="rest-nome" class="display-4 fw-bold">Carregando...</h1>
-        <p id="rest-categoria" class="lead fs-4"></p>
-    </div>
-  </header>
-
-  <div class="container mt-4">
-    <div class="row gx-4">
-      <div class="col-lg-8">
-        <div class="bg-white p-4 rounded shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Avaliações</h2>
-                <button id="btn-abrir-modal-avaliacao" class="btn btn-primary">
-                  <i class="fas fa-star"></i> Deixe sua avaliação
-                </button>
-            </div>
-            <hr>
-            <div id="lista-avaliacoes" class="d-flex flex-column gap-3">
-              <div id="avaliacoes-spinner" class="text-center p-4"><div class="spinner-border text-secondary" role="status"></div></div>
             </div>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="bg-white p-4 rounded shadow-sm">
-          <h4>Informações</h4>
-          <hr>
-          <p><strong>Avaliação Média:</strong><br><span id="rest-avaliacao" class="rating-details"></span></p>
-          <p><strong>Faixa de Preço:</strong><br><span id="rest-faixa-preco" class="fs-4"></span></p>
-          <p><strong>Endereço:</strong><br><span id="rest-endereco"></span></p>
-          <p><strong>Telefone:</strong><br><span id="rest-telefone"></span></p>
+    </nav>
+
+    <header id="restaurante-header">
+        <div class="container">
+            <h1 id="rest-nome" class="display-4 fw-bold">Carregando...</h1>
+            <p id="rest-categoria" class="lead fs-4"></p>
         </div>
-      </div>
+    </header>
+
+    <div class="container mt-4">
+        <div class="row gx-4">
+            <div class="col-lg-8">
+                <div class="bg-white p-4 rounded shadow-sm mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Avaliações</h2>
+                        <button id="btn-abrir-modal-avaliacao" class="btn btn-primary">
+                            <i class="fas fa-star"></i> Deixe sua avaliação
+                        </button>
+                    </div>
+                    <hr>
+                    <div id="lista-avaliacoes" class="d-flex flex-column gap-3">
+                        <div id="avaliacoes-spinner" class="text-center p-4"><div class="spinner-border text-secondary" role="status"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4>Informações</h4>
+                    <hr>
+                    <p><strong>Avaliação Média:</strong><br><span id="rest-avaliacao" class="rating-details"></span></p>
+                    <p><strong>Faixa de Preço:</strong><br><span id="rest-faixa-preco" class="fs-4"></span></p>
+                    <p><strong>Endereço:</strong><br><span id="rest-endereco"></span></p>
+                    <p><strong>Telefone:</strong><br><span id="rest-telefone"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <footer class="py-3 mt-5 bg-dark text-white text-center">
-    <div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div>
-  </footer>
+    <footer class="py-3 mt-5 bg-dark text-white text-center">
+        <div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div>
+    </footer>
 
-  <div class="modal fade" id="modalAvaliacao" tabindex="-1">
-    <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header bg-primary text-white"><h5 class="modal-title">Avaliar: <span id="restaurant-name-in-modal"></span></h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="reviewForm" novalidate><input type="hidden" id="idRestauranteInput"><input type="hidden" id="idUsuarioInput"><div class="mb-3"><label class="form-label">Sua Nota:</label><div id="starRating" class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div><input type="hidden" id="notaInput" required><div class="invalid-feedback d-none" id="notaError">Por favor, dê uma nota.</div></div><div class="mb-3"><label for="comentario" class="form-label">Seu Comentário:</label><textarea class="form-control" id="comentario" rows="5" placeholder="Conte-nos sobre sua experiência..." required></textarea><div class="invalid-feedback">Por favor, escreva um comentário.</div></div></form></div><div class="modal-footer"><div id="form-message" class="text-center me-auto"></div><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-success" form="reviewForm"><i class="fas fa-paper-plane"></i> Enviar Avaliação</button></div></div></div>
-  </div>
+    <div class="modal fade" id="modalAvaliacao" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Avaliar: <span id="restaurant-name-in-modal"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm" novalidate>
+                        <input type="hidden" id="idRestauranteInput">
+                        <input type="hidden" id="idUsuarioInput">
+                        <div class="mb-3">
+                            <label class="form-label">Sua Nota:</label>
+                            <div id="starRating" class="rating-stars">
+                                <i class="far fa-star" data-value="1"></i>
+                                <i class="far fa-star" data-value="2"></i>
+                                <i class="far fa-star" data-value="3"></i>
+                                <i class="far fa-star" data-value="4"></i>
+                                <i class="far fa-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="notaInput" required>
+                            <div class="invalid-feedback d-none" id="notaError">Por favor, dê uma nota.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comentario" class="form-label">Seu Comentário:</label>
+                            <textarea class="form-control" id="comentario" rows="5" placeholder="Conte-nos sobre sua experiência..." required></textarea>
+                            <div class="invalid-feedback">Por favor, escreva um comentário.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div id="form-message" class="text-center me-auto"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" form="reviewForm"><i class="fas fa-paper-plane"></i> Enviar Avaliação</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <div class="modal fade" id="modalLoginNecessario" tabindex="-1">
-    <div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Acesso Necessário</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>Você precisa estar logado para deixar uma avaliação.</p><p>Faça o login ou crie sua conta gratuitamente.</p></div><div class="modal-footer"><a href="cadastro.html" class="btn btn-secondary">Criar Conta</a><a href="login.html" class="btn btn-primary">Fazer Login</a></div></div></div>
-  </div>
+    <div class="modal fade" id="modalLoginNecessario" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Acesso Necessário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Você precisa estar logado para deixar uma avaliação.</p>
+                    <p>Faça o login ou crie sua conta gratuitamente.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="cadastro.html" class="btn btn-secondary">Criar Conta</a>
+                    <a href="login.html" class="btn btn-primary">Fazer Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-      // --- URLs, Elementos e Variáveis Globais ---
-      const RESTAURANTE_API_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
-      const REVIEW_API_URL = 'https://apirestaurantes.onrender.com/api/Review';
-      const USUARIO_API_URL = 'https://apirestaurantes.onrender.com/api/Usuario';
-      let restauranteAtual = null;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- URLs, Elementos e Variáveis Globais ---
+            const RESTAURANTE_API_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
+            const REVIEW_API_URL = 'https://apirestaurantes.onrender.com/api/Review';
+            const USUARIO_API_URL = 'https://apirestaurantes.onrender.com/api/Usuario';
+            let restauranteAtual = null;
 
-      // --- LÓGICA DE LOGIN E NAVBAR (VERSÃO TOKEN JWT) ---
-      function parseJwt(token) {
-        try { return JSON.parse(atob(token.split('.')[1])); } catch (e) { return null; }
-      }
-
-      function getUsuarioLogado() {
-        const token = localStorage.getItem('token');
-        if (!token) return null;
-        const decoded = parseJwt(token);
-        if (decoded && decoded.exp * 1000 > Date.now()) {
-          return { Id: decoded.nameid, Nome: decoded.unique_name, Foto: `https://i.pravatar.cc/150?u=${decoded.nameid}` };
-        }
-        localStorage.removeItem('token');
-        return null;
-      }
-
-      function handleLogout() {
-        localStorage.removeItem('token');
-        window.location.reload();
-      }
-
-      function configurarNavbar() {
-        const userSection = document.getElementById('nav-user-section');
-        const usuario = getUsuarioLogado();
-        if (usuario && usuario.Nome) {
-          userSection.innerHTML = `<span class="navbar-text me-3">Olá, <strong>${usuario.Nome.split(' ')[0]}</strong></span><img src="${usuario.Foto}" alt="Avatar" id="user-avatar" class="rounded-circle"><button id="btn-logout" class="btn btn-link text-secondary ms-2 text-decoration-none">Sair</button>`;
-          document.getElementById('btn-logout').addEventListener('click', handleLogout);
-        } else {
-          userSection.innerHTML = '<a href="login.html" class="btn btn-primary fw-bold">ENTRAR</a>';
-        }
-      }
-
-      // --- LÓGICA PRINCIPAL DA PÁGINA ---
-      async function carregarPagina() {
-        configurarNavbar();
-
-        const params = new URLSearchParams(window.location.search);
-        const restauranteId = params.get('id');
-        
-        if (!restauranteId) {
-          document.body.innerHTML = '<div class="alert alert-danger text-center m-5"><h1>Erro: ID do restaurante não fornecido.</h1><a href="index.html">Voltar</a></div>';
-          return;
-        }
-        
-        try {
-          const [restaurante, reviews] = await Promise.all([
-              fetch(`${RESTAURANTE_API_URL}/${restauranteId}`).then(res => res.json()),
-              fetch(`${REVIEW_API_URL}/restaurante/${restauranteId}`).then(res => res.json())
-          ]);
-          
-          restauranteAtual = restaurante; 
-          preencherInfoRestaurante(restaurante);
-
-          if (reviews && reviews.length > 0) {
-              const usuariosMap = await buscarDadosDeUsuarios(reviews);
-              renderizarAvaliacoes(reviews, usuariosMap);
-          } else {
-              document.getElementById('lista-avaliacoes').innerHTML = '<p class="text-muted">Este restaurante ainda não possui avaliações.</p>';
-          }
-        } catch (error) {
-          console.error("Erro ao carregar a página de detalhes:", error);
-          document.body.innerHTML = `<div class="alert alert-danger text-center m-5"><h1>Oops! Não foi possível carregar os detalhes.</h1><p>${error.message}</p><a href="index.html">Voltar</a></div>`;
-        }
-      }
-
-      // --- LÓGICA DO MODAL E FORMULÁRIO ---
-      const modalAvaliacaoEl = document.getElementById('modalAvaliacao');
-      const btnAbrirModalAvaliacao = document.getElementById('btn-abrir-modal-avaliacao');
-      
-      if (modalAvaliacaoEl && btnAbrirModalAvaliacao) {
-        const modalAvaliacao = new bootstrap.Modal(modalAvaliacaoEl);
-        const modalLogin = new bootstrap.Modal(document.getElementById('modalLoginNecessario'));
-
-        btnAbrirModalAvaliacao.addEventListener('click', () => {
-          if (getUsuarioLogado()) {
-            modalAvaliacao.show();
-          } else {
-            modalLogin.show();
-          }
-        });
-        
-        modalAvaliacaoEl.addEventListener('show.bs.modal', function () {
-            if (restauranteAtual) {
-                document.getElementById('restaurant-name-in-modal').textContent = restauranteAtual.Nome;
-                document.getElementById('idRestauranteInput').value = restauranteAtual.Id;
-                const form = document.getElementById('reviewForm');
-                form.reset();
-                form.querySelector('#notaInput').value = '';
-                form.querySelector('#form-message').textContent = '';
-                highlightStarsVisual(0);
+            // --- LÓGICA DE LOGIN E NAVBAR (VERSÃO TOKEN JWT) ---
+            function parseJwt(token) {
+                try { return JSON.parse(atob(token.split('.')[1])); } catch (e) { return null; }
             }
-        });
 
-        const reviewForm = document.getElementById('reviewForm');
-        reviewForm.addEventListener('submit', async function(event) {
-          event.preventDefault();
-          if (!validarFormulario()) return;
-          const submitButton = reviewForm.querySelector('button[type="submit"]');
-          submitButton.disabled = true;
-          const formMessage = document.getElementById('form-message');
-          formMessage.textContent = 'Enviando...';
-          formMessage.className = 'text-center me-auto text-info';
-          try {
-              await enviarAvaliacao();
-              formMessage.textContent = 'Avaliação enviada com sucesso!';
-              formMessage.className = 'text-center me-auto text-success';
-              setTimeout(() => {
-                  modalAvaliacao.hide();
-                  location.reload(); 
-              }, 1500);
-          } catch (error) {
-              formMessage.textContent = `Erro: ${error.message}`;
-              formMessage.className = 'text-center me-auto text-danger';
-              submitButton.disabled = false;
-          }
-        });
-      }
-
-      function highlightStarsVisual(rating) {
-        document.querySelectorAll('#starRating .fa-star').forEach((s, i) => {
-            s.classList.toggle('fas', i < rating);
-            s.classList.toggle('far', i >= rating);
-        });
-      }
-      document.querySelectorAll('#starRating .fa-star').forEach(star => {
-          star.addEventListener('click', () => {
-              document.getElementById('notaInput').value = star.dataset.value;
-              highlightStarsVisual(star.dataset.value);
-          });
-      });
-      
-      // --- FUNÇÕES AUXILIARES ---
-      function validarFormulario() {
-        let isValid = true;
-        if (!document.getElementById('notaInput').value) { isValid = false; }
-        if (document.getElementById('comentario').value.trim() === '') { isValid = false; }
-        return isValid;
-      }
-
-      async function enviarAvaliacao() {
-        const usuarioLogado = getUsuarioLogado();
-        if(!usuarioLogado) throw new Error("Usuário não logado.");
-        const reviewData = {
-          IdRestaurante: document.getElementById('idRestauranteInput').value,
-          IdUsuario: usuarioLogado.Id,
-          Nota: parseInt(document.getElementById('notaInput').value),
-          Comentario: document.getElementById('comentario').value,
-          Data: new Date().toISOString()
-        };
-        const response = await fetch(REVIEW_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(reviewData) });
-        if (!response.ok) { const errorText = await response.text(); throw new Error(errorText || `Erro no servidor: ${response.status}`); }
-        return await response.json();
-      }
-
-      function preencherInfoRestaurante(restaurante) {
-        document.getElementById('rest-nome').textContent = restaurante.Nome;
-        document.getElementById('restaurante-header').style.backgroundImage = `url(${restaurante.Foto || 'https://placehold.co/1200x400?text=Restaurante'})`;
-        document.getElementById('rest-categoria').textContent = restaurante.Categoria;
-        document.getElementById('rest-faixa-preco').textContent = restaurante.FaixaPreco;
-        document.getElementById('rest-endereco').textContent = `${restaurante.Endereco.Rua}, ${restaurante.Endereco.Numero} - ${restaurante.Endereco.Cidade}/${restaurante.Endereco.Estado}`;
-        document.getElementById('rest-telefone').textContent = `Telefone: ${restaurante.Telefone}`;
-        document.getElementById('rest-avaliacao').innerHTML = restaurante.AvaliacaoMedia != null ? `${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))} (${restaurante.AvaliacaoMedia.toFixed(1)})` : "Sem avaliações";
-        document.title = `${restaurante.Nome} - Prato Ideal`;
-      }
-
-      async function buscarDadosDeUsuarios(reviews) {
-        const idsDeUsuarios = [...new Set(reviews.map(review => review.IdUsuario))];
-        const promessasDeUsuarios = idsDeUsuarios.map(id => fetch(`${USUARIO_API_URL}/${id}`).then(res => res.json()));
-        const usuarios = await Promise.all(promessasDeUsuarios);
-        const usuariosMap = new Map();
-        usuarios.forEach(user => usuariosMap.set(user.Id, user));
-        return usuariosMap;
-      }
-
-      function renderizarAvaliacoes(reviews, usuariosMap) {
-        const listaAvaliacoesContainer = document.getElementById('lista-avaliacoes');
-        listaAvaliacoesContainer.innerHTML = '';
-        reviews.sort((a, b) => new Date(b.Data) - new Date(a.Data)).forEach(review => {
-            const usuario = usuariosMap.get(review.IdUsuario);
-            if (!usuario) return;
-            const ratingHtml = '⭐'.repeat(review.Nota) + '☆'.repeat(5 - review.Nota);
-            const dataFormatada = new Date(review.Data).toLocaleDateString('pt-BR');
-            let fotosHtml = '';
-            if (review.Fotos && review.Fotos.length > 0) {
-              fotosHtml += '<div class="review-photos mt-2">';
-              review.Fotos.forEach(fotoUrl => { fotosHtml += `<a href="${fotoUrl}" target="_blank"><img src="${fotoUrl}" alt="Foto da avaliação"></a>`; });
-              fotosHtml += '</div>';
+            function getUsuarioLogado() {
+                const token = localStorage.getItem('token');
+                if (!token) return null;
+                const decoded = parseJwt(token);
+                // Verifica se o token não expirou
+                if (decoded && decoded.exp * 1000 > Date.now()) {
+                    return { Id: decoded.nameid, Nome: decoded.unique_name, Foto: `https://i.pravatar.cc/150?u=${decoded.nameid}` };
+                }
+                localStorage.removeItem('token'); // Remove token expirado
+                return null;
             }
-            const reviewHtml = `<div class="review-card card mb-3"><div class="card-body"><div class="d-flex align-items-start"><img src="${usuario.Foto}" alt="Avatar de ${usuario.Nome}" class="review-user-avatar rounded-circle me-3"><div class="w-100"><div class="d-flex justify-content-between"><h6 class="mb-0 fw-bold">${usuario.Nome}</h6><small class="text-muted">${dataFormatada}</small></div><div class="rating-details mb-2">${ratingHtml}</div><p class="card-text">${review.Comentario}</p>${fotosHtml}</div></div></div></div>`;
-            listaAvaliacoesContainer.innerHTML += reviewHtml;
+
+            function handleLogout() {
+                localStorage.removeItem('token');
+                window.location.reload();
+            }
+
+            function configurarNavbar() {
+                const userSection = document.getElementById('nav-user-section');
+                const usuario = getUsuarioLogado();
+                if (userSection) {
+                    if (usuario && usuario.Nome) {
+                        userSection.innerHTML = `<span class="navbar-text me-3">Olá, <strong>${usuario.Nome.split(' ')[0]}</strong></span><img src="${usuario.Foto}" alt="Avatar" id="user-avatar" class="rounded-circle"><button id="btn-logout" class="btn btn-link text-secondary ms-2 text-decoration-none">Sair</button>`;
+                        document.getElementById('btn-logout')?.addEventListener('click', handleLogout);
+                    } else {
+                        userSection.innerHTML = '<a href="login.html" class="btn btn-primary fw-bold">ENTRAR</a>';
+                    }
+                }
+            }
+
+            // --- LÓGICA PRINCIPAL DA PÁGINA ---
+            async function carregarPagina() {
+                // Remove o spinner de avaliações antes de carregar
+                const avaliacoesSpinner = document.getElementById('avaliacoes-spinner');
+                if (avaliacoesSpinner) {
+                    avaliacoesSpinner.remove();
+                }
+
+                configurarNavbar();
+
+                const params = new URLSearchParams(window.location.search);
+                const restauranteId = params.get('id');
+
+                if (!restauranteId) {
+                    document.body.innerHTML = '<div class="alert alert-danger text-center m-5"><h1>Erro: ID do restaurante não fornecido.</h1><a href="index.html">Voltar</a></div>';
+                    return;
+                }
+
+                try {
+                    const [restaurante, reviews] = await Promise.all([
+                        fetch(`${RESTAURANTE_API_URL}/${restauranteId}`).then(res => res.json()),
+                        fetch(`${REVIEW_API_URL}/restaurante/${restauranteId}`).then(res => res.json())
+                    ]);
+
+                    restauranteAtual = restaurante;
+                    preencherInfoRestaurante(restaurante);
+
+                    if (reviews && reviews.length > 0) {
+                        const usuariosMap = await buscarDadosDeUsuarios(reviews);
+                        renderizarAvaliacoes(reviews, usuariosMap);
+                    } else {
+                        const listaAvaliacoesContainer = document.getElementById('lista-avaliacoes');
+                        if (listaAvaliacoesContainer) {
+                            listaAvaliacoesContainer.innerHTML = '<p class="text-muted">Este restaurante ainda não possui avaliações.</p>';
+                        }
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar a página de detalhes:", error);
+                    document.body.innerHTML = `<div class="alert alert-danger text-center m-5"><h1>Oops! Não foi possível carregar os detalhes.</h1><p>${error.message}</p><a href="index.html">Voltar</a></div>`;
+                }
+            }
+
+            // --- LÓGICA DO MODAL E FORMULÁRIO ---
+            const modalAvaliacaoEl = document.getElementById('modalAvaliacao');
+            const btnAbrirModalAvaliacao = document.getElementById('btn-abrir-modal-avaliacao');
+
+            if (modalAvaliacaoEl && btnAbrirModalAvaliacao) {
+                const modalAvaliacao = new bootstrap.Modal(modalAvaliacaoEl);
+                const modalLogin = new bootstrap.Modal(document.getElementById('modalLoginNecessario'));
+
+                btnAbrirModalAvaliacao.addEventListener('click', () => {
+                    if (getUsuarioLogado()) {
+                        modalAvaliacao.show();
+                    } else {
+                        modalLogin.show();
+                    }
+                });
+
+                modalAvaliacaoEl.addEventListener('show.bs.modal', function () {
+                    const restaurantNameInModal = document.getElementById('restaurant-name-in-modal');
+                    const idRestauranteInput = document.getElementById('idRestauranteInput');
+                    const notaInput = document.getElementById('notaInput');
+                    const form = document.getElementById('reviewForm');
+                    const formMessage = form ? form.querySelector('#form-message') : null;
+
+                    if (restauranteAtual && restaurantNameInModal && idRestauranteInput && notaInput && form) {
+                        restaurantNameInModal.textContent = restauranteAtual.Nome;
+                        idRestauranteInput.value = restauranteAtual.Id;
+                        form.reset();
+                        notaInput.value = '';
+                        if (formMessage) formMessage.textContent = '';
+                        highlightStarsVisual(0);
+                    } else {
+                        console.warn("Elementos do modal ou restauranteAtual não encontrados ao tentar abrir o modal de avaliação.");
+                    }
+                });
+
+                const reviewForm = document.getElementById('reviewForm');
+                if (reviewForm) {
+                    reviewForm.addEventListener('submit', async function(event) {
+                        event.preventDefault();
+                        if (!validarFormulario()) {
+                            reviewForm.classList.add('was-validated');
+                            return;
+                        }
+
+                        const submitButton = reviewForm.querySelector('button[type="submit"]');
+                        const formMessage = document.getElementById('form-message');
+
+                        if (submitButton) submitButton.disabled = true;
+                        if (formMessage) {
+                            formMessage.textContent = 'Enviando...';
+                            formMessage.className = 'text-center me-auto text-info';
+                        }
+
+                        try {
+                            await enviarAvaliacao();
+                            if (formMessage) {
+                                formMessage.textContent = 'Avaliação enviada com sucesso!';
+                                formMessage.className = 'text-center me-auto text-success';
+                            }
+                            setTimeout(() => {
+                                modalAvaliacao.hide();
+                                location.reload();
+                            }, 1500);
+                        } catch (error) {
+                            console.error("Erro ao enviar avaliação:", error);
+                            if (formMessage) {
+                                formMessage.textContent = `Erro: ${error.message}`;
+                                formMessage.className = 'text-center me-auto text-danger';
+                            }
+                            if (submitButton) submitButton.disabled = false;
+                        }
+                    });
+                }
+            }
+
+            function highlightStarsVisual(rating) {
+                document.querySelectorAll('#starRating .fa-star').forEach((s, i) => {
+                    s.classList.toggle('fas', i < rating);
+                    s.classList.toggle('far', i >= rating);
+                });
+            }
+
+            document.querySelectorAll('#starRating .fa-star').forEach(star => {
+                star.addEventListener('click', () => {
+                    const notaInput = document.getElementById('notaInput');
+                    if (notaInput) {
+                        notaInput.value = star.dataset.value;
+                        highlightStarsVisual(star.dataset.value);
+                        document.getElementById('notaError')?.classList.add('d-none');
+                    }
+                });
+            });
+
+            // --- FUNÇÕES AUXILIARES ---
+            function validarFormulario() {
+                let isValid = true;
+                const notaInput = document.getElementById('notaInput');
+                const comentarioInput = document.getElementById('comentario');
+                const notaError = document.getElementById('notaError');
+
+                if (!notaInput || !notaInput.value) {
+                    isValid = false;
+                    if (notaError) notaError.classList.remove('d-none');
+                } else {
+                    if (notaError) notaError.classList.add('d-none');
+                }
+
+                if (!comentarioInput || comentarioInput.value.trim() === '') {
+                    isValid = false;
+                    comentarioInput?.classList.add('is-invalid');
+                } else {
+                    comentarioInput?.classList.remove('is-invalid');
+                }
+                return isValid;
+            }
+
+            async function enviarAvaliacao() {
+                const usuarioLogado = getUsuarioLogado();
+                if (!usuarioLogado) {
+                    throw new Error("Usuário não logado. Faça o login para enviar uma avaliação.");
+                }
+
+                const idRestauranteInput = document.getElementById('idRestauranteInput');
+                const notaInput = document.getElementById('notaInput');
+                const comentarioInput = document.getElementById('comentario');
+
+                if (!idRestauranteInput || !notaInput || !comentarioInput) {
+                    throw new Error("Elementos do formulário de avaliação não encontrados.");
+                }
+
+                const reviewData = {
+                    IdRestaurante: idRestauranteInput.value,
+                    IdUsuario: usuarioLogado.Id,
+                    Nota: parseInt(notaInput.value),
+                    Comentario: comentarioInput.value,
+                    Data: new Date().toISOString()
+                };
+
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error("Token de autenticação não encontrado. Faça o login.");
+                }
+
+                const response = await fetch(REVIEW_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(reviewData)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        throw new Error("Você não tem permissão para realizar esta ação. Faça login novamente.");
+                    }
+                    const errorText = await response.text();
+                    throw new Error(errorText || `Erro no servidor: ${response.status}`);
+                }
+                return await response.json();
+            }
+
+            function preencherInfoRestaurante(restaurante) {
+                const restNome = document.getElementById('rest-nome');
+                const restauranteHeader = document.getElementById('restaurante-header');
+                const restCategoria = document.getElementById('rest-categoria');
+                const restFaixaPreco = document.getElementById('rest-faixa-preco');
+                const restEndereco = document.getElementById('rest-endereco');
+                const restTelefone = document.getElementById('rest-telefone');
+                const restAvaliacao = document.getElementById('rest-avaliacao');
+
+                if (restNome) restNome.textContent = restaurante.Nome;
+                if (restauranteHeader) restauranteHeader.style.backgroundImage = `url(${restaurante.Foto || 'https://placehold.co/1200x400?text=Restaurante'})`;
+                if (restCategoria) restCategoria.textContent = restaurante.Categoria;
+                if (restFaixaPreco) restFaixaPreco.textContent = restaurante.FaixaPreco;
+
+                if (restaurante.Endereco) {
+                    if (restEndereco) restEndereco.textContent = `${restaurante.Endereco.Rua}, ${restaurante.Endereco.Numero} - ${restaurante.Endereco.Cidade}/${restaurante.Endereco.Estado}`;
+                } else if (restEndereco) {
+                    restEndereco.textContent = "Endereço não disponível";
+                }
+
+                if (restTelefone) restTelefone.textContent = `Telefone: ${restaurante.Telefone || 'N/A'}`;
+                if (restAvaliacao) restAvaliacao.innerHTML = restaurante.AvaliacaoMedia != null ? `${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))} (${restaurante.AvaliacaoMedia.toFixed(1)})` : "Sem avaliações";
+
+                document.title = `${restaurante.Nome} - Prato Ideal`;
+            }
+
+            async function buscarDadosDeUsuarios(reviews) {
+                const idsDeUsuarios = [...new Set(reviews.map(review => review.IdUsuario))];
+                const promessasDeUsuarios = idsDeUsuarios.map(id => fetch(`${USUARIO_API_URL}/${id}`).then(res => res.json()));
+                const usuarios = await Promise.all(promessasDeUsuarios);
+                const usuariosMap = new Map();
+                usuarios.forEach(user => usuariosMap.set(user.Id, user));
+                return usuariosMap;
+            }
+
+            function renderizarAvaliacoes(reviews, usuariosMap) {
+                const listaAvaliacoesContainer = document.getElementById('lista-avaliacoes');
+                if (!listaAvaliacoesContainer) return;
+
+                listaAvaliacoesContainer.innerHTML = '';
+                reviews.sort((a, b) => new Date(b.Data) - new Date(a.Data)).forEach(review => {
+                    const usuario = usuariosMap.get(review.IdUsuario);
+                    if (!usuario) return;
+
+                    const ratingHtml = '⭐'.repeat(review.Nota) + '☆'.repeat(5 - review.Nota);
+                    const dataFormatada = new Date(review.Data).toLocaleDateString('pt-BR');
+                    let fotosHtml = '';
+                    if (review.Fotos && review.Fotos.length > 0) {
+                        fotosHtml += '<div class="review-photos mt-2">';
+                        review.Fotos.forEach(fotoUrl => { fotosHtml += `<a href="${fotoUrl}" target="_blank"><img src="${fotoUrl}" alt="Foto da avaliação"></a>`; });
+                        fotosHtml += '</div>';
+                    }
+                    const reviewHtml = `<div class="review-card card mb-3"><div class="card-body"><div class="d-flex align-items-start"><img src="${usuario.Foto}" alt="Avatar de ${usuario.Nome}" class="review-user-avatar rounded-circle me-3"><div class="w-100"><div class="d-flex justify-content-between"><h6 class="mb-0 fw-bold">${usuario.Nome}</h6><small class="text-muted">${dataFormatada}</small></div><div class="rating-details mb-2">${ratingHtml}</div><p class="card-text">${review.Comentario}</p>${fotosHtml}</div></div></div></div>`;
+                    listaAvaliacoesContainer.innerHTML += reviewHtml;
+                });
+            }
+
+
+            // --- LÓGICA DO MENU DE ACESSIBILIDADE ---
+            const body = document.body;
+            const fontDecreaseBtn = document.getElementById('font-decrease');
+            const fontResetBtn = document.getElementById('font-reset');
+            const fontIncreaseBtn = document.getElementById('font-increase');
+            const contrastLowBtn = document.getElementById('contrast-low');
+            const contrastHighBtn = document.getElementById('contrast-high');
+            const contrastResetBtn = document.getElementById('contrast-reset');
+
+            const acessibilityToggleBtn = document.getElementById('acessibility-toggle-btn');
+            const acessibilityCloseBtn = document.getElementById('acessibility-close-btn');
+            const acessibilityMenu = document.getElementById('acessibility-menu');
+
+            const FONT_SIZES = ['font-small', '', 'font-large', 'font-larger'];
+            let currentFontSizeIndex = 1;
+
+            function applyFontSize(index) {
+                FONT_SIZES.forEach(className => {
+                    // AQUI ESTÁ A CORREÇÃO: Adicionada verificação para className não ser vazio
+                    if (className) {
+                        body.classList.remove(className);
+                    }
+                });
+                if (FONT_SIZES[index]) {
+                    body.classList.add(FONT_SIZES[index]);
+                }
+                localStorage.setItem('acessibilityFontSizeIndex', index);
+                currentFontSizeIndex = index;
+            }
+
+            function applyContrast(mode) {
+                body.classList.remove('grayscale-contrast', 'high-contrast');
+
+                if (mode === 'low') {
+                    body.classList.add('grayscale-contrast');
+                } else if (mode === 'high') {
+                    body.classList.add('high-contrast');
+                }
+                localStorage.setItem('acessibilityContrastMode', mode);
+            }
+
+            function loadAcessibilityPreferences() {
+                const savedFontSizeIndex = localStorage.getItem('acessibilityFontSizeIndex');
+                if (savedFontSizeIndex !== null) {
+                    currentFontSizeIndex = parseInt(savedFontSizeIndex);
+                    // Validação para garantir que o índice é válido
+                    if (currentFontSizeIndex >= 0 && currentFontSizeIndex < FONT_SIZES.length) {
+                        applyFontSize(currentFontSizeIndex);
+                    } else { // Se for inválido, reseta para o padrão
+                        applyFontSize(1);
+                    }
+                }
+
+                const savedContrastMode = localStorage.getItem('acessibilityContrastMode');
+                if (savedContrastMode) {
+                    applyContrast(savedContrastMode);
+                }
+            }
+
+            // Event Listeners para o menu de acessibilidade
+            if (acessibilityToggleBtn && acessibilityMenu) {
+                acessibilityToggleBtn.addEventListener('click', () => {
+                    acessibilityMenu.style.display = acessibilityMenu.style.display === 'none' ? 'block' : 'none';
+                    acessibilityToggleBtn.setAttribute('aria-expanded', acessibilityMenu.style.display === 'block');
+                });
+            }
+            if (acessibilityCloseBtn && acessibilityMenu) {
+                acessibilityCloseBtn.addEventListener('click', () => {
+                    acessibilityMenu.style.display = 'none';
+                    acessibilityToggleBtn.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            if (fontDecreaseBtn) {
+                fontDecreaseBtn.addEventListener('click', () => {
+                    if (currentFontSizeIndex > 0) {
+                        applyFontSize(currentFontSizeIndex - 1);
+                    }
+                });
+            }
+
+            if (fontResetBtn) {
+                fontResetBtn.addEventListener('click', () => {
+                    applyFontSize(1); // Volta para o tamanho padrão (índice 1 no FONT_SIZES)
+                });
+            }
+
+            if (fontIncreaseBtn) {
+                fontIncreaseBtn.addEventListener('click', () => {
+                    if (currentFontSizeIndex < FONT_SIZES.length - 1) {
+                        applyFontSize(currentFontSizeIndex + 1);
+                    }
+                });
+            }
+
+            if (contrastLowBtn) {
+                contrastLowBtn.addEventListener('click', () => applyContrast('low'));
+            }
+
+            if (contrastHighBtn) {
+                contrastHighBtn.addEventListener('click', () => applyContrast('high'));
+            }
+
+            if (contrastResetBtn) {
+                contrastResetBtn.addEventListener('click', () => applyContrast('default'));
+            }
+
+            // Carregar as preferências de acessibilidade assim que o DOM for carregado
+            loadAcessibilityPreferences();
+
+
+            // INICIA A APLICAÇÃO PRINCIPAL DA PÁGINA
+            carregarPagina();
         });
-      }
-      
-      // INICIA A APLICAÇÃO
-      carregarPagina();
-    });
-  </script>
+    </script>
 </body>
 </html>
