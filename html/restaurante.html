@@ -1,361 +1,292 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Restaurante</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style-restaurant.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carregando Restaurante...</title> 
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { background-color: #f8f9fa; }
+    #restaurante-header { min-height: 40vh; background-size: cover; background-position: center; position: relative; color: white; display: flex; align-items: flex-end; padding: 2rem; border-radius: 0 0 15px 15px; }
+    #restaurante-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, transparent 100%); border-radius: 0 0 15px 15px; }
+    #restaurante-header * { position: relative; z-index: 2; }
+    .rating-details { font-size: 1.2rem; color: #ffc107; }
+    .review-card { border: 1px solid #e9ecef; }
+    .review-user-avatar { width: 50px; height: 50px; object-fit: cover; }
+    .review-photos img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; margin-right: 10px; cursor: pointer; }
+    .rating-stars { font-size: 2rem; color: #ccc; cursor: pointer; }
+    .rating-stars .fas.fa-star { color: #ffc107; }
+    #user-avatar { width: 40px; height: 40px; object-fit: cover; }
+    #img-logo-nav { width: 50px; height: 50px; margin-right: 10px; }
+  </style>
 </head>
 <body>
-  <nav id="nav-top" class="navbar navbar-expand-md">
-    <div class="container-fluid container-md d-flex justify-content-between align-items-center">
-
-      <!-- Logo -->
-      <div id="logo-nav" class="d-flex align-items-center">
+  <nav id="nav-top" class="navbar navbar-expand-md bg-light shadow-sm">
+      <div class="container">
         <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
-        <a class="navbar-brand fs-1 fw-bolder ms-2 d-none d-md-inline" href="#">Prato Ideal</a>
+          <a class="navbar-brand fs-2 fw-bolder" href="../index.html">Prato Ideal</a>
+          <div class="ms-auto">
+            <div id="nav-user-section" class="d-flex align-items-center">
+                </div>
+          </div>
       </div>
-
-      <!-- Barra de pesquisa -->
-      <div id="barra-pesquisa-container" class="flex-grow-1 mx-3">
-        <form class="input-group" role="search">
-          <input id="barra-pesquisa" type="text" class="form-control" placeholder="O que você procura?">
-          <button class="btn" type="submit">
-            <img src="../imagens/lupa.svg" alt="Pesquisar" width="16" height="16">
-          </button>
-        </form>
-      </div>
-
-      <!-- Perfil -->
-      <div id="perfil-nav" class="d-flex align-items-center">
-        <a class="navbar-brand fs-3 m-0 d-none d-md-inline" href="#">ENTRAR</a>
-        <img id="img-perfil-nav" src="../imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
-      </div>
-
-    </div>
   </nav>
 
-    <div class="restaurant-hero">
-        <img id="rest-foto-principal" src="https://via.placeholder.com/1200x400.png?text=Foto+Principal+do+Restaurante" alt="Foto Principal do Restaurante" class="restaurant-hero-image">
-        <div class="restaurant-hero-overlay">
-            <div class="container">
-                <h1 id="rest-nome">Nome do Restaurante</h1>
-                <div class="d-flex align-items-center mb-2">
-                    <span id="rest-avaliacao-media-estrelas" class="rating-stars mr-2"></span>
-                    <span id="rest-avaliacao-media-texto" class="mr-3"></span>
-                    <span id="rest-categoria" class="mr-3"></span>
-                    <span id="rest-faixa-preco"></span>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn btn-outline-light"><i class="fas fa-share-alt"></i> Compartilhar</button>
-                    <button class="btn btn-warning btn-avaliar-destaque"><i class="fas fa-star"></i> Avaliar Restaurante</button>
-                    <button class="btn btn-outline-light"><i class="far fa-heart"></i> Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+  <header id="restaurante-header">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 main-content">
-                <ul class="nav nav-tabs mb-4" id="restaurantTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Visão Geral</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="comodidades-tab" data-toggle="tab" href="#comodidades" role="tab" aria-controls="comodidades" aria-selected="false">Comodidades</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="location-tab" data-toggle="tab" href="#location" role="tab" aria-controls="location" aria-selected="false">Localização</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Avaliações (<span id="total-reviews">0</span>)</a>
-                    </li>
-                </ul>
+        <h1 id="rest-nome" class="display-4 fw-bold">Carregando...</h1>
+        <p id="rest-categoria" class="lead fs-4"></p>
+    </div>
+  </header>
 
-                <div class="tab-content" id="restaurantTabContent">
-                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                        <h3 class="section-title">Sobre o <span id="rest-nome-sobre">Restaurante</span></h3>
-                        <p id="rest-descricao-longa">Aqui viria uma descrição mais detalhada do restaurante, se disponível. Por enquanto, focamos nos dados estruturados.</p>
-                        
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i> <span id="rest-endereco-completo"></span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-phone"></i> <span id="rest-telefone"></span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-utensils"></i> <span id="rest-categoria-detalhe"></span>
-                        </div>
-                         <div class="info-item">
-                            <i class="fas fa-dollar-sign"></i> <span id="rest-faixa-preco-detalhe"></span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-info-circle"></i> <span id="rest-status-funcionamento">Verificar horário de funcionamento</span>
-                        </div>
-
-                        <h3 class="section-title mt-4">Galeria de Fotos</h3>
-                        <div id="rest-galeria-fotos" class="row">
-                            <div class="col-md-3 col-6 mb-3">
-                                <img src="https://via.placeholder.com/200x150.png?text=Foto+1" class="img-fluid rounded" alt="Foto da galeria">
-                            </div>
-                             <div class="col-md-3 col-6 mb-3">
-                                <img src="https://via.placeholder.com/200x150.png?text=Foto+2" class="img-fluid rounded" alt="Foto da galeria">
-                            </div>
-                             <div class="col-md-3 col-6 mb-3">
-                                <img src="https://via.placeholder.com/200x150.png?text=Foto+3" class="img-fluid rounded" alt="Foto da galeria">
-                            </div>
-                             <div class="col-md-3 col-6 mb-3">
-                                <img src="https://via.placeholder.com/200x150.png?text=Foto+4" class="img-fluid rounded" alt="Foto da galeria">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="comodidades" role="tabpanel" aria-labelledby="comodidades-tab">
-                        <h3 class="section-title">Comodidades Oferecidas</h3>
-                        <ul id="lista-comodidades" class="list-unstyled comodidades-list row">
-                            </ul>
-                    </div>
-
-                    <div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
-                        <h3 class="section-title">Onde nos Encontrar</h3>
-                        <p id="rest-endereco-mapa"></p>
-                        <div id="map-placeholder" style="width: 100%; height: 300px; background-color: #e9e9e9; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center;">
-                            <p class="text-muted">Simulação de Mapa <br><i class="fas fa-map-marked-alt fa-3x"></i></p>
-                        </div>
-                        <p class="mt-2"><small class="text-muted">Bairro: <span id="rest-bairro">Não informado</span></small></p>
-                    </div>
-
-                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                             <h3 class="section-title mb-0">Avaliações dos Clientes</h3>
-                             <button class="btn btn-primary btn-avaliar-destaque"><i class="fas fa-edit"></i> Escrever Avaliação</button>
-                        </div>
-                       
-                        <div id="lista-avaliacoes">
-                            </div>
-                    </div>
-                </div>
+  <div class="container mt-4">
+    <div class="row gx-4">
+      <div class="col-lg-8">
+        <div class="bg-white p-4 rounded shadow-sm mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Avaliações</h2>
+                <button id="btn-abrir-modal-avaliacao" class="btn btn-primary">
+                  <i class="fas fa-star"></i> Deixe sua avaliação
+                </button>
             </div>
-
-            <div class="col-lg-4 sidebar">
-                <div class="sidebar-card">
-                    <h5>Horário de Funcionamento</h5>
-                    <ul id="horario-funcionamento-lista" class="list-unstyled horario-funcionamento">
-                        <li><span class="dia">Domingo</span> <span>12:00 - 17:00</span></li>
-                        <li><span class="dia">Segunda-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
-                        <li><span class="dia">Terça-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
-                        <li><span class="dia">Quarta-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
-                        <li><span class="dia">Quinta-feira</span> <span>12:00 - 15:00, 19:30 - 00:00</span></li>
-                        <li><span class="dia">Sexta-feira</span> <span>12:00 - 16:00, 19:30 - 01:00</span></li>
-                        <li><span class="dia">Sábado</span> <span>12:00 - 16:00, 19:30 - 01:00</span></li>
-                    </ul>
-                    <small class="text-muted">Horários sujeitos a alteração.</small>
-                </div>
-
-                <div class="sidebar-card">
-                    <h5>Contato Rápido</h5>
-                    <p class="info-item mb-2"><i class="fas fa-phone"></i> <span id="rest-telefone-sidebar"></span></p>
-                    <p class="info-item mb-0"><i class="fas fa-map-marker-alt"></i> <span id="rest-endereco-sidebar"></span></p>
-                </div>
-                 <div class="sidebar-card text-center">
-                    <h5>Gostou deste restaurante?</h5>
-                    <button class="btn btn-success btn-block mt-2"><i class="far fa-thumbs-up"></i> Recomendar</button>
-                    <button class="btn btn-outline-secondary btn-block mt-2"><i class="fas fa-plus"></i> Adicionar aos Favoritos</button>
-                </div>
+            <hr>
+            <div id="lista-avaliacoes" class="d-flex flex-column gap-3">
+              <div id="avaliacoes-spinner" class="text-center p-4"><div class="spinner-border text-secondary" role="status"></div></div>
             </div>
         </div>
-    </div>
-
-    <footer>
-      <div class="text-center">
-      <div class="container">
-        <p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p>
       </div>
-    </footer>
+      <div class="col-lg-4">
+        <div class="bg-white p-4 rounded shadow-sm">
+          <h4>Informações</h4>
+          <hr>
+          <p><strong>Avaliação Média:</strong><br><span id="rest-avaliacao" class="rating-details"></span></p>
+          <p><strong>Faixa de Preço:</strong><br><span id="rest-faixa-preco" class="fs-4"></span></p>
+          <p><strong>Endereço:</strong><br><span id="rest-endereco"></span></p>
+          <p><strong>Telefone:</strong><br><span id="rest-telefone"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <script>
-        // Dados simulados (você os obteria de uma API ou de outra fonte)
-        const dadosRestaurante = {
-            "_id": "rest1",
-            "nome": "Melo Restaurante",
-            "endereco": { "rua": "Rodovia Clara Melo", "numero": 577, "cidade": "Curitiba", "estado": "PR", "bairro": "Centro Cívico" /* Adicionei bairro para exemplo */ },
-            "categoria": "Italiana",
-            "avaliacao_media": 3.2,
-            "foto_principal": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80", // Foto principal melhor
-            "fotos_galeria": [ // Adicionei fotos para galeria
-                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
-                "https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-            ],
-            "telefone": "+55 41 4561 5465",
-            "faixa_preco": "$$", // Ex: $, $$, $$$
-            "comodidades": {
-                "wifi": true, "estacionamento": false, "acessibilidade": true, "ar_condicionado": false, 
-                "espaco_kids": true, "pet_friendly": false, "musica_ao_vivo": true, "delivery": true, 
-                "bebidas_alcoolicas": true, "vegano_vegetariano": false, "reserva_online": true, "ambiente_externo": false
-            },
-            "descricao_longa": "O Melo Restaurante oferece uma autêntica experiência da culinária italiana em um ambiente acolhedor e charmoso. Nossos pratos são preparados com ingredientes frescos e selecionados, seguindo receitas tradicionais passadas de geração em geração. Perfeito para um jantar romântico, um almoço de negócios ou uma celebração em família."
-        };
+  <footer class="py-3 mt-5 bg-dark text-white text-center">
+    <div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div>
+  </footer>
 
-        const todasAvaliacoes = [
-            { "_id": "rev1", "id_restaurante": "rest1", "id_usuario": "user1", "nota": 4, "comentario": "Ótimo! Adorei a lasanha. O ambiente é muito agradável e o atendimento foi rápido. Voltarei com certeza!", "data": "2025-05-20", "fotos": ["https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"] },
-            { "_id": "rev2", "id_restaurante": "rest1", "id_usuario": "user2", "nota": 5, "comentario": "Experiência incrível! A comida estava divina, especialmente o risoto de cogumelos. Recomendo fortemente para quem aprecia boa comida italiana.", "data": "2025-05-19", "fotos": ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=481&q=80", "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=480&q=80"] },
-            { "_id": "rev3", "id_restaurante": "rest1", "id_usuario": "user3", "nota": 3, "comentario": "A comida é boa, mas o serviço demorou um pouco. O preço é justo pela qualidade.", "data": "2025-05-18", "fotos": [] }
-        ];
+  <div class="modal fade" id="modalAvaliacao" tabindex="-1">
+    <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header bg-primary text-white"><h5 class="modal-title">Avaliar: <span id="restaurant-name-in-modal"></span></h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="reviewForm" novalidate><input type="hidden" id="idRestauranteInput"><input type="hidden" id="idUsuarioInput"><div class="mb-3"><label class="form-label">Sua Nota:</label><div id="starRating" class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div><input type="hidden" id="notaInput" required><div class="invalid-feedback d-none" id="notaError">Por favor, dê uma nota.</div></div><div class="mb-3"><label for="comentario" class="form-label">Seu Comentário:</label><textarea class="form-control" id="comentario" rows="5" placeholder="Conte-nos sobre sua experiência..." required></textarea><div class="invalid-feedback">Por favor, escreva um comentário.</div></div></form></div><div class="modal-footer"><div id="form-message" class="text-center me-auto"></div><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-success" form="reviewForm"><i class="fas fa-paper-plane"></i> Enviar Avaliação</button></div></div></div>
+  </div>
 
-        const todosUsuarios = {
-            "user1": { "nome": "Srta. Lívia Nunes", "foto": "https://randomuser.me/api/portraits/women/1.jpg" },
-            "user2": { "nome": "Sr. Carlos Maia", "foto": "https://randomuser.me/api/portraits/men/2.jpg" },
-            "user3": { "nome": "Ana Paula Silva", "foto": "https://randomuser.me/api/portraits/women/3.jpg" }
-        };
+  <div class="modal fade" id="modalLoginNecessario" tabindex="-1">
+    <div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Acesso Necessário</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>Você precisa estar logado para deixar uma avaliação.</p><p>Faça o login ou crie sua conta gratuitamente.</p></div><div class="modal-footer"><a href="cadastro.html" class="btn btn-secondary">Criar Conta</a><a href="login.html" class="btn btn-primary">Fazer Login</a></div></div></div>
+  </div>
 
-        // Função para gerar estrelas
-        function gerarEstrelas(nota, maxEstrelas = 5) {
-            let estrelasHTML = '';
-            const notaInt = Math.floor(nota);
-            const temMeiaEstrela = nota - notaInt >= 0.5;
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- URLs, Elementos e Variáveis Globais ---
+      const RESTAURANTE_API_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
+      const REVIEW_API_URL = 'https://apirestaurantes.onrender.com/api/Review';
+      const USUARIO_API_URL = 'https://apirestaurantes.onrender.com/api/Usuario';
+      let restauranteAtual = null;
 
-            for (let i = 0; i < notaInt; i++) {
-                estrelasHTML += '<i class="fas fa-star"></i>';
-            }
-            if (temMeiaEstrela) {
-                estrelasHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            for (let i = Math.ceil(nota); i < maxEstrelas; i++) {
-                estrelasHTML += '<i class="far fa-star"></i>'; // Estrela vazia
-            }
-            return estrelasHTML;
+      // --- LÓGICA DE LOGIN E NAVBAR (VERSÃO TOKEN JWT) ---
+      function parseJwt(token) {
+        try { return JSON.parse(atob(token.split('.')[1])); } catch (e) { return null; }
+      }
+
+      function getUsuarioLogado() {
+        const token = localStorage.getItem('token');
+        if (!token) return null;
+        const decoded = parseJwt(token);
+        if (decoded && decoded.exp * 1000 > Date.now()) {
+          return { Id: decoded.nameid, Nome: decoded.unique_name, Foto: `https://i.pravatar.cc/150?u=${decoded.nameid}` };
+        }
+        localStorage.removeItem('token');
+        return null;
+      }
+
+      function handleLogout() {
+        localStorage.removeItem('token');
+        window.location.reload();
+      }
+
+      function configurarNavbar() {
+        const userSection = document.getElementById('nav-user-section');
+        const usuario = getUsuarioLogado();
+        if (usuario && usuario.Nome) {
+          userSection.innerHTML = `<span class="navbar-text me-3">Olá, <strong>${usuario.Nome.split(' ')[0]}</strong></span><img src="${usuario.Foto}" alt="Avatar" id="user-avatar" class="rounded-circle"><button id="btn-logout" class="btn btn-link text-secondary ms-2 text-decoration-none">Sair</button>`;
+          document.getElementById('btn-logout').addEventListener('click', handleLogout);
+        } else {
+          userSection.innerHTML = '<a href="login.html" class="btn btn-primary fw-bold">ENTRAR</a>';
+        }
+      }
+
+      // --- LÓGICA PRINCIPAL DA PÁGINA ---
+      async function carregarPagina() {
+        configurarNavbar();
+
+        const params = new URLSearchParams(window.location.search);
+        const restauranteId = params.get('id');
+        
+        if (!restauranteId) {
+          document.body.innerHTML = '<div class="alert alert-danger text-center m-5"><h1>Erro: ID do restaurante não fornecido.</h1><a href="index.html">Voltar</a></div>';
+          return;
         }
         
-        // Função para formatar nomes de comodidades
-        function formatarNomeComodidade(comodidade) {
-            let nomeFormatado = comodidade.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-            const mapNomes = {
-                "Wifi": "Wi-Fi", "Ar Condicionado": "Ar Condicionado", "Espaco Kids": "Espaço Kids",
-                "Pet Friendly": "Pet Friendly", "Musica Ao Vivo": "Música ao Vivo", 
-                "Vegano Vegetariano": "Opções Veganas/Vegetarianas", "Reserva Online": "Reserva Online",
-                "Ambiente Externo": "Ambiente Externo", "Bebidas Alcoolicas": "Bebidas Alcoólicas"
-            };
-            return mapNomes[nomeFormatado] || nomeFormatado;
+        try {
+          const [restaurante, reviews] = await Promise.all([
+              fetch(`${RESTAURANTE_API_URL}/${restauranteId}`).then(res => res.json()),
+              fetch(`${REVIEW_API_URL}/restaurante/${restauranteId}`).then(res => res.json())
+          ]);
+          
+          restauranteAtual = restaurante; 
+          preencherInfoRestaurante(restaurante);
+
+          if (reviews && reviews.length > 0) {
+              const usuariosMap = await buscarDadosDeUsuarios(reviews);
+              renderizarAvaliacoes(reviews, usuariosMap);
+          } else {
+              document.getElementById('lista-avaliacoes').innerHTML = '<p class="text-muted">Este restaurante ainda não possui avaliações.</p>';
+          }
+        } catch (error) {
+          console.error("Erro ao carregar a página de detalhes:", error);
+          document.body.innerHTML = `<div class="alert alert-danger text-center m-5"><h1>Oops! Não foi possível carregar os detalhes.</h1><p>${error.message}</p><a href="index.html">Voltar</a></div>`;
         }
+      }
 
+      // --- LÓGICA DO MODAL E FORMULÁRIO ---
+      const modalAvaliacaoEl = document.getElementById('modalAvaliacao');
+      const btnAbrirModalAvaliacao = document.getElementById('btn-abrir-modal-avaliacao');
+      
+      if (modalAvaliacaoEl && btnAbrirModalAvaliacao) {
+        const modalAvaliacao = new bootstrap.Modal(modalAvaliacaoEl);
+        const modalLogin = new bootstrap.Modal(document.getElementById('modalLoginNecessario'));
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Popular informações do restaurante
-            document.getElementById('rest-foto-principal').src = dadosRestaurante.foto_principal;
-            document.getElementById('rest-foto-principal').alt = `Foto de ${dadosRestaurante.nome}`;
-            document.getElementById('rest-nome').textContent = dadosRestaurante.nome;
-            document.getElementById('rest-nome-sobre').textContent = dadosRestaurante.nome;
-            
-            const avaliacaoMedia = dadosRestaurante.avaliacao_media;
-            document.getElementById('rest-avaliacao-media-estrelas').innerHTML = gerarEstrelas(avaliacaoMedia);
-            document.getElementById('rest-avaliacao-media-texto').textContent = `${avaliacaoMedia.toFixed(1)} de 5 estrelas`;
-            
-            document.getElementById('rest-categoria').textContent = dadosRestaurante.categoria;
-            document.getElementById('rest-categoria-detalhe').textContent = `Culinária: ${dadosRestaurante.categoria}`;
-
-            let faixaPrecoTexto = 'Não informado';
-            if (dadosRestaurante.faixa_preco === '$') faixaPrecoTexto = 'Barato';
-            else if (dadosRestaurante.faixa_preco === '$$') faixaPrecoTexto = 'Moderado';
-            else if (dadosRestaurante.faixa_preco === '$$$') faixaPrecoTexto = 'Caro';
-            else if (dadosRestaurante.faixa_preco === '$$$$') faixaPrecoTexto = 'Muito Caro';
-            document.getElementById('rest-faixa-preco').textContent = faixaPrecoTexto;
-            document.getElementById('rest-faixa-preco-detalhe').textContent = `Faixa de Preço: ${faixaPrecoTexto}`;
-            
-            const end = dadosRestaurante.endereco;
-            const enderecoCompleto = `${end.rua}, ${end.numero} - ${end.bairro || 'Bairro não informado'}, ${end.cidade}/${end.estado}`;
-            document.getElementById('rest-endereco-completo').textContent = enderecoCompleto;
-            document.getElementById('rest-endereco-mapa').textContent = enderecoCompleto;
-            document.getElementById('rest-endereco-sidebar').textContent = `${end.rua}, ${end.numero}`;
-            if(end.bairro) document.getElementById('rest-bairro').textContent = end.bairro;
-
-
-            document.getElementById('rest-telefone').textContent = dadosRestaurante.telefone;
-            document.getElementById('rest-telefone-sidebar').textContent = dadosRestaurante.telefone;
-            if(dadosRestaurante.descricao_longa) {
-                document.getElementById('rest-descricao-longa').textContent = dadosRestaurante.descricao_longa;
-            }
-
-
-            // Popular comodidades
-            const comodidadesContainer = document.getElementById('lista-comodidades');
-            comodidadesContainer.innerHTML = ''; // Limpa antes de adicionar
-            for (const [comodidade, disponivel] of Object.entries(dadosRestaurante.comodidades)) {
-                const li = document.createElement('li');
-                li.className = 'col-md-6 info-item'; 
-                const iconClass = disponivel ? 'fas fa-check-circle' : 'fas fa-times-circle';
-                const nomeComodidadeFormatado = formatarNomeComodidade(comodidade);
-                li.innerHTML = `<i class="${iconClass}"></i> ${nomeComodidadeFormatado}`;
-                comodidadesContainer.appendChild(li);
-            }
-
-            // Popular galeria de fotos (Visão Geral)
-            const galeriaContainer = document.getElementById('rest-galeria-fotos');
-            galeriaContainer.innerHTML = ''; // Limpa placeholders
-            if (dadosRestaurante.fotos_galeria && dadosRestaurante.fotos_galeria.length > 0) {
-                dadosRestaurante.fotos_galeria.slice(0, 4).forEach(fotoUrl => { // Limita a 4 fotos para o exemplo
-                    const col = document.createElement('div');
-                    col.className = 'col-md-3 col-6 mb-3';
-                    col.innerHTML = `<img src="${fotoUrl}" class="img-fluid rounded" alt="Foto da galeria do restaurante" style="height: 150px; width:100%; object-fit: cover;">`;
-                    galeriaContainer.appendChild(col);
-                });
-            } else {
-                galeriaContainer.innerHTML = '<p class="col-12 text-muted">Nenhuma foto adicional na galeria.</p>';
-            }
-
-
-            // Popular avaliações
-            const listaAvaliacoesContainer = document.getElementById('lista-avaliacoes');
-            listaAvaliacoesContainer.innerHTML = ''; // Limpa antes de adicionar
-            const avaliacoesDoRestaurante = todasAvaliacoes.filter(rev => rev.id_restaurante === dadosRestaurante._id);
-            document.getElementById('total-reviews').textContent = avaliacoesDoRestaurante.length;
-
-            if (avaliacoesDoRestaurante.length === 0) {
-                listaAvaliacoesContainer.innerHTML = '<p class="text-center text-muted mt-3">Este restaurante ainda não possui avaliações.</p>';
-            } else {
-                avaliacoesDoRestaurante.forEach(review => {
-                    const usuario = todosUsuarios[review.id_usuario] || { nome: "Usuário Anônimo", foto: "https://via.placeholder.com/50" };
-                    const estrelasReviewHTML = gerarEstrelas(review.nota);
-
-                    let fotosReviewHTML = '';
-                    if (review.fotos && review.fotos.length > 0) {
-                        review.fotos.forEach(fotoUrl => {
-                            fotosReviewHTML += `<img src="${fotoUrl}" alt="Foto da avaliação" class="review-photos">`;
-                        });
-                    }
-
-                    const reviewCardHTML = `
-                        <div class="card review-card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start">
-                                    <img src="${usuario.foto}" alt="${usuario.nome}" class="review-user-avatar">
-                                    <div class="w-100">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h6 class="mb-0 font-weight-bold">${usuario.nome}</h6>
-                                            <small class="text-muted">${new Date(review.data).toLocaleDateString('pt-BR')}</small>
-                                        </div>
-                                        <div class="review-stars my-1">${estrelasReviewHTML} <span class="ml-1 font-weight-bold">${review.nota.toFixed(1)}</span></div>
-                                        <p class="card-text mb-1">${review.comentario}</p>
-                                        ${fotosReviewHTML ? `<div class="mt-2">${fotosReviewHTML}</div>` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    listaAvaliacoesContainer.innerHTML += reviewCardHTML;
-                });
+        btnAbrirModalAvaliacao.addEventListener('click', () => {
+          if (getUsuarioLogado()) {
+            modalAvaliacao.show();
+          } else {
+            modalLogin.show();
+          }
+        });
+        
+        modalAvaliacaoEl.addEventListener('show.bs.modal', function () {
+            if (restauranteAtual) {
+                document.getElementById('restaurant-name-in-modal').textContent = restauranteAtual.Nome;
+                document.getElementById('idRestauranteInput').value = restauranteAtual.Id;
+                const form = document.getElementById('reviewForm');
+                form.reset();
+                form.querySelector('#notaInput').value = '';
+                form.querySelector('#form-message').textContent = '';
+                highlightStarsVisual(0);
             }
         });
-    </script>
+
+        const reviewForm = document.getElementById('reviewForm');
+        reviewForm.addEventListener('submit', async function(event) {
+          event.preventDefault();
+          if (!validarFormulario()) return;
+          const submitButton = reviewForm.querySelector('button[type="submit"]');
+          submitButton.disabled = true;
+          const formMessage = document.getElementById('form-message');
+          formMessage.textContent = 'Enviando...';
+          formMessage.className = 'text-center me-auto text-info';
+          try {
+              await enviarAvaliacao();
+              formMessage.textContent = 'Avaliação enviada com sucesso!';
+              formMessage.className = 'text-center me-auto text-success';
+              setTimeout(() => {
+                  modalAvaliacao.hide();
+                  location.reload(); 
+              }, 1500);
+          } catch (error) {
+              formMessage.textContent = `Erro: ${error.message}`;
+              formMessage.className = 'text-center me-auto text-danger';
+              submitButton.disabled = false;
+          }
+        });
+      }
+
+      function highlightStarsVisual(rating) {
+        document.querySelectorAll('#starRating .fa-star').forEach((s, i) => {
+            s.classList.toggle('fas', i < rating);
+            s.classList.toggle('far', i >= rating);
+        });
+      }
+      document.querySelectorAll('#starRating .fa-star').forEach(star => {
+          star.addEventListener('click', () => {
+              document.getElementById('notaInput').value = star.dataset.value;
+              highlightStarsVisual(star.dataset.value);
+          });
+      });
+      
+      // --- FUNÇÕES AUXILIARES ---
+      function validarFormulario() {
+        let isValid = true;
+        if (!document.getElementById('notaInput').value) { isValid = false; }
+        if (document.getElementById('comentario').value.trim() === '') { isValid = false; }
+        return isValid;
+      }
+
+      async function enviarAvaliacao() {
+        const usuarioLogado = getUsuarioLogado();
+        if(!usuarioLogado) throw new Error("Usuário não logado.");
+        const reviewData = {
+          IdRestaurante: document.getElementById('idRestauranteInput').value,
+          IdUsuario: usuarioLogado.Id,
+          Nota: parseInt(document.getElementById('notaInput').value),
+          Comentario: document.getElementById('comentario').value,
+          Data: new Date().toISOString()
+        };
+        const response = await fetch(REVIEW_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(reviewData) });
+        if (!response.ok) { const errorText = await response.text(); throw new Error(errorText || `Erro no servidor: ${response.status}`); }
+        return await response.json();
+      }
+
+      function preencherInfoRestaurante(restaurante) {
+        document.getElementById('rest-nome').textContent = restaurante.Nome;
+        document.getElementById('restaurante-header').style.backgroundImage = `url(${restaurante.Foto || 'https://placehold.co/1200x400?text=Restaurante'})`;
+        document.getElementById('rest-categoria').textContent = restaurante.Categoria;
+        document.getElementById('rest-faixa-preco').textContent = restaurante.FaixaPreco;
+        document.getElementById('rest-endereco').textContent = `${restaurante.Endereco.Rua}, ${restaurante.Endereco.Numero} - ${restaurante.Endereco.Cidade}/${restaurante.Endereco.Estado}`;
+        document.getElementById('rest-telefone').textContent = `Telefone: ${restaurante.Telefone}`;
+        document.getElementById('rest-avaliacao').innerHTML = restaurante.AvaliacaoMedia != null ? `${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))} (${restaurante.AvaliacaoMedia.toFixed(1)})` : "Sem avaliações";
+        document.title = `${restaurante.Nome} - Prato Ideal`;
+      }
+
+      async function buscarDadosDeUsuarios(reviews) {
+        const idsDeUsuarios = [...new Set(reviews.map(review => review.IdUsuario))];
+        const promessasDeUsuarios = idsDeUsuarios.map(id => fetch(`${USUARIO_API_URL}/${id}`).then(res => res.json()));
+        const usuarios = await Promise.all(promessasDeUsuarios);
+        const usuariosMap = new Map();
+        usuarios.forEach(user => usuariosMap.set(user.Id, user));
+        return usuariosMap;
+      }
+
+      function renderizarAvaliacoes(reviews, usuariosMap) {
+        const listaAvaliacoesContainer = document.getElementById('lista-avaliacoes');
+        listaAvaliacoesContainer.innerHTML = '';
+        reviews.sort((a, b) => new Date(b.Data) - new Date(a.Data)).forEach(review => {
+            const usuario = usuariosMap.get(review.IdUsuario);
+            if (!usuario) return;
+            const ratingHtml = '⭐'.repeat(review.Nota) + '☆'.repeat(5 - review.Nota);
+            const dataFormatada = new Date(review.Data).toLocaleDateString('pt-BR');
+            let fotosHtml = '';
+            if (review.Fotos && review.Fotos.length > 0) {
+              fotosHtml += '<div class="review-photos mt-2">';
+              review.Fotos.forEach(fotoUrl => { fotosHtml += `<a href="${fotoUrl}" target="_blank"><img src="${fotoUrl}" alt="Foto da avaliação"></a>`; });
+              fotosHtml += '</div>';
+            }
+            const reviewHtml = `<div class="review-card card mb-3"><div class="card-body"><div class="d-flex align-items-start"><img src="${usuario.Foto}" alt="Avatar de ${usuario.Nome}" class="review-user-avatar rounded-circle me-3"><div class="w-100"><div class="d-flex justify-content-between"><h6 class="mb-0 fw-bold">${usuario.Nome}</h6><small class="text-muted">${dataFormatada}</small></div><div class="rating-details mb-2">${ratingHtml}</div><p class="card-text">${review.Comentario}</p>${fotosHtml}</div></div></div></div>`;
+            listaAvaliacoesContainer.innerHTML += reviewHtml;
+        });
+      }
+      
+      // INICIA A APLICAÇÃO
+      carregarPagina();
+    });
+  </script>
 </body>
 </html>

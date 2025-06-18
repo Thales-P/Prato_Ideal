@@ -1,33 +1,157 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prato Ideal</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <style>
+    /* Estilos Gerais e Antigos */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Istok Web', sans-serif;
+    }
+    .restaurant-card img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .rating {
+      color: #ffc107;
+    }
+    /* Adicionando estilo para que os links dos cards não tenham decoração padrão */
+    a.card-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    a.card-link .card {
+        transition: all 0.2s ease-in-out;
+    }
+    a.card-link:hover .card {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    /* Estilos para os Carrosséis */
+    .carrossel-wrapper {
+      position: relative;
+    }
+    .restaurante-carrossel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: 1rem;
+      min-height: 200px;
+      align-items: center;
+      scrollbar-width: none;
+    }
+    .restaurante-carrossel::-webkit-scrollbar {
+      display: none;
+    }
+    .restaurante-carrossel > .col-md-3 {
+      flex: 0 0 25%;
+      max-width: 25%;
+      scroll-snap-align: start;
+      padding-right: var(--bs-gutter-x, 0.75rem);
+      padding-left: var(--bs-gutter-x, 0.75rem);
+    }
+    .arrow {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 28px;
+      font-weight: bold;
+      line-height: 42px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s;
+    }
+    .arrow:hover {
+      background-color: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .arrow-left {
+      left: -22px;
+    }
+    .arrow-right {
+      right: -22px;
+    }
+
+    /* Estilos para a Lista de Resultados Vertical */
+    .resultado-item-vertical {
+      display: flex;
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+      color: inherit;
+      text-decoration: none;
+    }
+    a.resultado-item-vertical:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .resultado-item-vertical img {
+      width: 160px;
+      height: 120px;
+      object-fit: cover;
+    }
+    .resultado-item-vertical .info {
+      padding: 15px 20px;
+    }
+    .resultado-item-vertical .info h5 {
+      margin-bottom: 5px;
+    }
+    
+    @media (max-width: 768px) {
+      .restaurante-carrossel > .col-md-3 {
+        flex: 0 0 80%;
+        max-width: 80%;
+      }
+      .arrow-left { left: 5px; }
+      .arrow-right { right: 5px; }
+    }
+  </style>
 </head>
+
 <body>
 
-  <nav id="nav-top" class="navbar navbar-expand-md">
+    <nav id="nav-top" class="navbar navbar-expand-md">
     <div class="container-fluid container-md d-flex justify-content-between align-items-center">
+
+      <!-- Logo -->
       <div id="logo-nav" class="d-flex align-items-center">
-        <img src="imagens/logo-preto.svg" alt="Logo" />
+        <img id="img-logo-nav" src="../imagens/logo-preto.svg" alt="Logo" />
         <a class="navbar-brand fs-1 fw-bolder ms-2 d-none d-md-inline" href="#">Prato Ideal</a>
       </div>
-      <div id="barra-pesquisa-container" class="flex-grow-1 mx-3">
-        <form class="input-group" role="search">
-          <input id="barra-pesquisa" type="text" class="form-control" placeholder="O que você procura?">
-          <button class="btn" type="submit"><img src="imagens/lupa.svg" alt="Pesquisar" width="16" height="16"></button>
-        </form>
-      </div>
+
+      
+
+      <!-- Perfil -->
       <div id="perfil-nav" class="d-flex align-items-center">
         <a class="navbar-brand fs-3 m-0 d-none d-md-inline" href="#">ENTRAR</a>
-        <img src="imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
+        <img id="img-perfil-nav" src="../imagens/usuario-de-perfil.svg" alt="Perfil" width="32" height="32">
       </div>
+
     </div>
   </nav>
 
@@ -36,28 +160,24 @@
       <div class="container" id="header-left">
         <div class="float-start w-100">
           <h1 class="slogan mb-4">Descubra, avalie e compartilhe experiências gastronômicas</h1>
-          <form class="d-flex mb-3 search-bar">
-            <input type="text" class="form-control me-2" id="searchInput" placeholder="Cidade, tipo de comida ou nome do restaurante" />
-            <button id="btn-pesquisa-header" type="submit" class="btn btn-primary">🔍</button>
-          </form>
+          <div id="busca-com-sugestoes-wrapper" style="position: relative;">
+            <form id="form-busca-header" class="d-flex mb-3 search-bar" role="search">
+              <input type="text" class="form-control me-2" id="searchInput" placeholder="Busque por nome..." autocomplete="off" />
+              <button id="btn-pesquisa-header" type="submit" class="btn btn-primary">🔍</button>
+            </form>
+            <div id="sugestoes-busca" class="sugestoes-container"></div>
+          </div>
           <div id="filtros" class="d-flex flex-wrap gap-2 filter-buttons">
-            <div class="dropdown">
-              <button id="nota-btn" class="btn btn-primary border-0 dropdown-toggle" data-bs-toggle="dropdown">Nota mínima ⭐</button>
-              <ul class="dropdown-menu"><li><button class="dropdown-item">...</button></li></ul>
-            </div>
-            <div class="dropdown">
-              <button id="preco-btn" class="btn btn-primary border-0 dropdown-toggle" data-bs-toggle="dropdown">Preço 💰</button>
-              <ul class="dropdown-menu"><li><button class="dropdown-item">...</button></li></ul>
-            </div>
             <div class="dropdown">
               <button id="tipo-btn" class="btn btn-primary border-0 dropdown-toggle" data-bs-toggle="dropdown">Tipo 🍽️</button>
               <ul class="dropdown-menu">
                 <li><button class="dropdown-item" onclick="selectFilter('tipo', null)"><strong>Ver Todos</strong></button></li>
                 <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Brasileira')">Brasileira</button></li>
+                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Churrascaria')">Churrascaria</button></li>
+                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Fast Food')">Fast Food</button></li>
                 <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Italiana')">Italiana</button></li>
                 <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Japonesa')">Japonesa</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Hambúrguer')">Hambúrguer</button></li>
-                <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Brasileira')">Brasileira</button></li>
                 <li><button class="dropdown-item" onclick="selectFilter('tipo', 'Vegetariana')">Vegetariana</button></li>
               </ul>
             </div>
@@ -70,132 +190,226 @@
     </div>
   </header>
 
-  <main>
-    <div class="container mt-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1><strong>Restaurantes</strong></h1>
-      </div>
-      <div id="melhores-avaliados-container" class="row g-4">
-        </div>
+  <section id="resultados-busca-container" class="container mt-5" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 id="titulo-resultados">Resultados</h2>
+      <button id="fechar-busca-btn" class="btn-close" aria-label="Fechar"></button>
     </div>
+    <div id="lista-resultados-busca" class="d-flex flex-column gap-3"></div>
+  </section>
+
+  <main id="main-content-wrapper">
+    <section class="container mt-5"><h2 class="mb-3"><strong>Melhores Avaliados</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-avaliados" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
+    <section class="container mt-5"><h2 class="mb-3"><strong>Ótimos Preços</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-precos" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
+    <section class="container mt-5"><h2 class="mb-3"><strong>Sabores da Itália</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-italiana" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
+    <section class="container mt-5"><h2 class="mb-3"><strong>Cozinha Japonesa</strong></h2><div class="carrossel-wrapper"><button class="arrow arrow-left">‹</button><div id="carrossel-japonesa" class="restaurante-carrossel"></div><button class="arrow arrow-right">›</button></div></section>
   </main>
+  
+  <footer class="py-3 mt-5"><div class="text-center"><div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div></div></footer>
 
-  <footer class="py-3 mt-5">
-    <div class="text-center">
-      <div class="container"><p class="mb-0">2025 Prato Ideal. Todos os direitos reservados.</p></div>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script defer>
     document.addEventListener('DOMContentLoaded', () => {
-      console.log("Aplicação Prato Ideal iniciada a partir de script interno.");
-
       // --- 1. CONFIGURAÇÕES E ELEMENTOS ---
-      const restaurantesContainer = document.getElementById('melhores-avaliados-container');
-      const tipoBtn = document.getElementById('tipo-btn');
+      const BASE_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
+      let listaCompletaRestaurantes = [];
+
+      const mainContentWrapper = document.getElementById('main-content-wrapper');
+      const resultadosContainer = document.getElementById('resultados-busca-container');
+      const listaResultadosBusca = document.getElementById('lista-resultados-busca');
+      const tituloResultados = document.getElementById('titulo-resultados');
+      const fecharBuscaBtn = document.getElementById('fechar-busca-btn');
       
-      const RESTAURANTE_API_URL = 'https://apirestaurantes.onrender.com/api/Restaurante';
-      // !!! IMPORTANTE: COLOQUE SUA CHAVE DA API DO PEXELS AQUI !!!
-      const PEXELS_API_KEY = 'SUA_CHAVE_DA_API_DO_PEXELS_VEM_AQUI';
+      const searchForm = document.getElementById('form-busca-header');
+      const searchInput = document.getElementById('searchInput');
+      const sugestoesContainer = document.getElementById('sugestoes-busca');
 
       // --- 2. FUNÇÕES DE API ---
-      async function fetchRestaurantes(categoria = null) {
-        let url = RESTAURANTE_API_URL;
-        if (categoria) {
-          url = `${RESTAURANTE_API_URL}/categoria/${categoria.toLowerCase()}`;
-        }
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`API de Restaurantes: Status ${response.status}`);
-        return response.json();
+      async function fetchApiData(endpoint = '') {
+        const urlFinal = endpoint ? `${BASE_URL}/${endpoint}` : BASE_URL;
+        const response = await fetch(urlFinal);
+        if (!response.ok) throw new Error(`API Error: Status ${response.status}`);
+        const text = await response.text();
+        return text ? JSON.parse(text) : [];
       }
 
-      async function fetchImagensPexels(query, perPage = 40) {
-        if (!PEXELS_API_KEY || PEXELS_API_KEY === 'SUA_CHAVE_DA_API_DO_PEXELS_VEM_AQUI') {
-            console.warn("Chave da API do Pexels não configurada. Usando placeholders básicos.");
-            return [];
-        }
-        const url = `https://api.pexels.com/v1/search?query=${query}&per_page=${perPage}`;
-        const response = await fetch(url, { headers: { Authorization: PEXELS_API_KEY } });
-        if (!response.ok) throw new Error(`API do Pexels: Status ${response.status}`);
-        const data = await response.json();
-        return data.photos.map(photo => photo.src.large);
+      // --- 3. FUNÇÕES DE UI (INTERFACE) ---
+      function mostrarSpinner(container) {
+        if(container) container.innerHTML = `<div class="d-flex justify-content-center w-100"><div class="spinner-border text-primary" role="status"></div></div>`;
       }
 
-      // --- 3. FUNÇÕES DE INTERFACE (UI) ---
-      function mostrarSpinner() {
-        restaurantesContainer.innerHTML = `<div class="col-12 text-center mt-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>`;
-      }
-
-      function mostrarErro(error) {
-        console.error('ERRO CRÍTICO:', error);
-        restaurantesContainer.innerHTML = `<div class="col-12"><p class="text-danger text-center">Ops! Falha ao carregar conteúdo.</p></div>`;
-      }
-
-      function renderizarCards(listaRestaurantes, listaImagens) {
-        restaurantesContainer.innerHTML = '';
-        const restaurantesValidos = listaRestaurantes.filter(r => r.Nome);
-
-        if (restaurantesValidos.length === 0) {
-          restaurantesContainer.innerHTML = '<div class="col-12"><p class="text-muted text-center">Nenhum restaurante encontrado.</p></div>';
+      function renderizarCarrossel(containerId, lista) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        if (lista.length === 0) {
+          container.innerHTML = '<div class="col-12"><p class="text-muted p-3">Nenhum restaurante nesta categoria.</p></div>';
           return;
         }
+        lista.forEach(restaurante => container.innerHTML += criarCardHtml(restaurante));
+      }
+      
+      function renderizarResultadosBusca(lista) {
+        listaResultadosBusca.innerHTML = '';
+        if (lista.length === 0) {
+          listaResultadosBusca.innerHTML = '<p class="text-muted">Nenhum restaurante encontrado.</p>';
+          return;
+        }
+        lista.forEach(restaurante => listaResultadosBusca.innerHTML += criarItemListaVerticalHtml(restaurante));
+      }
 
-        restaurantesValidos.forEach((restaurante, index) => {
-          const fallbackImg = `https://placehold.co/400x300/E1E1E1/424242?text=${restaurante.Nome.split(' ')[0]}`;
-          const pexelsImg = listaImagens[index % listaImagens.length];
-          const imageUrl = restaurante.Foto || pexelsImg || fallbackImg;
-
-          let ratingHtml = '<p class="text-muted small mb-1">Sem avaliações</p>';
-          if (restaurante.AvaliacaoMedia != null) {
-            ratingHtml = `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))} <span class="text-muted small">(${restaurante.AvaliacaoMedia.toFixed(1)})</span></p>`;
-          }
-
-          let enderecoHtml = '<p class="text-muted small mt-auto">Endereço não informado</p>';
-          if (restaurante.Endereco && restaurante.Endereco.Cidade && restaurante.Endereco.Estado) {
-            enderecoHtml = `<p class="text-muted small mt-auto">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>`;
-          }
-
-          const cardHtml = `
-            <div class="col-md-3">
+      function criarCardHtml(restaurante) {
+        const imageUrl = restaurante.Foto || `https://source.unsplash.com/random/400x300?food,dish&sig=${restaurante.Id}`;
+        const ratingHtml = restaurante.AvaliacaoMedia != null ? `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))}</p>` : '<p class="text-muted small mb-1">Sem avaliações</p>';
+        const enderecoHtml = (restaurante.Endereco) ? `<p class="text-muted small mt-auto">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>` : '';
+        
+        // Envolve o card em uma tag <a> com o link para a página de detalhes
+        return `
+          <div class="col-md-3">
+            <a href="html/restaurante.html?id=${restaurante.Id}" class="card-link">
               <div class="card restaurant-card h-100">
-                <img src="${imageUrl}" class="card-img-top" alt="Foto do ${restaurante.Nome}">
+                <img src="${imageUrl}" class="card-img-top" alt="Foto de ${restaurante.Nome}">
                 <div class="card-body d-flex flex-column">
                   <h6 class="card-title">${restaurante.Nome}</h6>
                   ${ratingHtml}
                   ${enderecoHtml}
                 </div>
               </div>
-            </div>`;
-          restaurantesContainer.innerHTML += cardHtml;
+            </a>
+          </div>`;
+      }
+      
+      function criarItemListaVerticalHtml(restaurante) {
+        const imageUrl = restaurante.Foto || `https://source.unsplash.com/random/400x300?food,dish&sig=${restaurante.Id}`;
+        const ratingHtml = restaurante.AvaliacaoMedia != null ? `<p class="mb-1 rating">${'⭐'.repeat(Math.round(restaurante.AvaliacaoMedia))}</p>` : '<p class="text-muted small mb-1">Sem avaliações</p>';
+        const enderecoHtml = (restaurante.Endereco) ? `<p class="text-muted small">${restaurante.Endereco.Cidade}, ${restaurante.Endereco.Estado}</p>` : '';
+
+        // Envolve o item da lista em uma tag <a>
+        return `
+          <a href="html/restaurante.html?id=${restaurante.Id}" class="resultado-item-vertical card-link">
+            <img src="${imageUrl}" alt="Foto de ${restaurante.Nome}">
+            <div class="info">
+              <h5>${restaurante.Nome}</h5>
+              ${ratingHtml}
+              ${enderecoHtml}
+            </div>
+          </a>`;
+      }
+      
+      function alternarVisibilidade(mostrarResultados) {
+        mainContentWrapper.style.display = mostrarResultados ? 'none' : 'block';
+        resultadosContainer.style.display = mostrarResultados ? 'block' : 'none';
+      }
+      
+      function configurarSetasDosCarrosseis() {
+        document.querySelectorAll('.carrossel-wrapper').forEach(wrapper => {
+          const carrossel = wrapper.querySelector('.restaurante-carrossel');
+          const arrowLeft = wrapper.querySelector('.arrow-left');
+          const arrowRight = wrapper.querySelector('.arrow-right');
+          if (carrossel && arrowLeft && arrowRight) {
+            arrowLeft.addEventListener('click', () => carrossel.scrollBy({ left: -carrossel.clientWidth * 0.8, behavior: 'smooth' }));
+            arrowRight.addEventListener('click', () => carrossel.scrollBy({ left: carrossel.clientWidth * 0.8, behavior: 'smooth' }));
+          }
         });
       }
 
       // --- 4. LÓGICA PRINCIPAL E EVENTOS ---
-      async function carregarConteudo(categoria = null) {
-        mostrarSpinner();
+      async function montarPaginaInicial() {
+        const carrosselIds = ['carrossel-avaliados', 'carrossel-precos', 'carrossel-italiana', 'carrossel-japonesa'];
+        carrosselIds.forEach(id => mostrarSpinner(document.getElementById(id)));
+        
         try {
-          const [restaurantes, imagens] = await Promise.all([
-            fetchRestaurantes(categoria),
-            fetchImagensPexels('restaurant food plate', 40)
-          ]);
-          renderizarCards(restaurantes, imagens);
+          const [todos, melhores] = await Promise.all([ fetchApiData(), fetchApiData('melhores') ]);
+          listaCompletaRestaurantes = todos;
+          
+          const otimosPrecos = todos.filter(r => r.FaixaPreco === '$').slice(0, 10);
+          const italianos = todos.filter(r => r.Categoria === 'Italiana');
+          const japoneses = todos.filter(r => r.Categoria === 'Japonesa');
+
+          renderizarCarrossel('carrossel-avaliados', melhores);
+          renderizarCarrossel('carrossel-precos', otimosPrecos);
+          renderizarCarrossel('carrossel-italiana', italianos);
+          renderizarCarrossel('carrossel-japonesa', japoneses);
+          
+          configurarSetasDosCarrosseis();
         } catch (error) {
-          mostrarErro(error);
+          console.error("Erro ao montar a página inicial:", error);
+          mainContentWrapper.innerHTML = `<div class="container mt-5"><p class="text-danger text-center h4">Oops! Não foi possível carregar.</p></div>`;
         }
       }
-
-      window.selectFilter = function(tipo, valor) {
-        if (tipo === 'tipo') {
-          tipoBtn.innerHTML = valor ? `${valor} 🍽️` : 'Tipo 🍽️';
-          carregarConteudo(valor);
+      
+      function executarFiltro(criterio, valor) {
+        let resultados = [];
+        if (criterio === 'tipo') {
+          tituloResultados.textContent = `Cozinha: ${valor}`;
+          resultados = listaCompletaRestaurantes.filter(r => r.Categoria === valor);
+        } else if (criterio === 'busca') {
+          tituloResultados.textContent = `Resultados para "${valor}"`;
+          const termo = valor.toLowerCase();
+          resultados = listaCompletaRestaurantes.filter(r => r.Nome.toLowerCase().includes(termo));
         }
+        resultados.sort((a, b) => (b.AvaliacaoMedia || 0) - (a.AvaliacaoMedia || 0));
+        renderizarResultadosBusca(resultados);
+        alternarVisibilidade(true);
+      }
+      
+      // Lógica do autocomplete...
+      function exibirSugestoes(sugestoes) {
+        sugestoesContainer.innerHTML = '';
+        if (sugestoes.length === 0) {
+          sugestoesContainer.style.display = 'none';
+          return;
+        }
+        sugestoes.slice(0, 5).forEach(sugestao => {
+          const itemDiv = document.createElement('div');
+          itemDiv.textContent = sugestao.Nome;
+          itemDiv.className = 'sugestao-item';
+          itemDiv.onclick = () => {
+            searchInput.value = sugestao.Nome;
+            sugestoesContainer.innerHTML = '';
+            sugestoesContainer.style.display = 'none';
+          };
+          sugestoesContainer.appendChild(itemDiv);
+        });
+        sugestoesContainer.style.display = 'block';
+      }
+
+      searchInput.addEventListener('input', () => {
+        const termo = searchInput.value.toLowerCase().trim();
+        if (termo.length < 2) {
+          sugestoesContainer.style.display = 'none';
+          return;
+        }
+        const sugestoesFiltradas = listaCompletaRestaurantes.filter(restaurante =>
+          restaurante.Nome.toLowerCase().includes(termo)
+        );
+        exibirSugestoes(sugestoesFiltradas);
+      });
+
+      // --- Gatilhos de eventos ---
+      window.selectFilter = (tipo, valor) => {
+        if (valor === null) { alternarVisibilidade(false); return; }
+        executarFiltro(tipo, valor);
       };
 
-      carregarConteudo(); // Carga inicial
+      searchForm.addEventListener('submit', (e) => {
+        const termo = searchInput.value.trim();
+        if (termo) executarFiltro('busca', termo);
+      });
+
+      fecharBuscaBtn.addEventListener('click', () => alternarVisibilidade(false));
+      
+      document.addEventListener('click', (event) => {
+        if (!searchInput.contains(event.target) && !sugestoesContainer.contains(event.target)) {
+          sugestoesContainer.style.display = 'none';
+        }
+      });
+
+      // Inicia a aplicação
+      montarPaginaInicial();
     });
   </script>
 
+  <a href="html/restaurante.html"></a>
 </body>
 </html>
